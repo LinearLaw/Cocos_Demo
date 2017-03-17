@@ -1,0 +1,189 @@
+@import "reset";
+
+html {
+    width: 100%;
+    min-height: 100%;
+}
+
+.clearFix {
+    &:before, &:after {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+.pullLeft {
+    float: left;
+}
+
+.pullRight {
+    float: right;
+}
+
+.textCenter {
+    text-align: center;
+}
+
+.textRight {
+    text-align: right;
+}
+
+.ellipsisNormal {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ellipsis(@line) {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: @line;
+}
+
+.ellipsisCompatibility(@height,@bottom:0,@right:0,@bg:#fff) {
+    max-height: @height;
+    overflow: hidden;
+    position: relative;
+    &::after {
+        display: block;
+        content: "...";
+        position: absolute;
+        bottom: @bottom;
+        right: @right;
+        background-color: @bg;
+    }
+}
+
+.fullPage-wp {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.fullPage-wp:after {
+    display: block;
+    content: ' ';
+    height: 0;
+    clear: both;
+}
+
+.fullPage-wp.anim {
+    -webkit-transition: all 200ms ease-out 0s;
+    transition: all 200ms ease-out 0s;
+}
+
+.fullPage-page {
+    display: block;
+    overflow: hidden;
+}
+
+.fullPage-dir-h {
+    float: left;
+}
+
+.ani {
+    position: absolute;
+    display: none;
+}
+
+.wp {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.page {
+    position: relative;
+    overflow: hidden;
+}
+
+#musicBtn {
+    width: 60px;
+    height: 60px;
+    background: url("../images/music-0.png") no-repeat;
+    background-size: 100% 100%;
+    position: fixed;
+    top: 20px;
+    left: 40px;
+    z-index: 1000;
+}
+
+.pause {
+    background-image: url("../images/music-1.png") !important;
+}
+
+.loading {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    z-index: 9999;
+    .loadCon {
+        width: 150px;
+        height: 150px;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        margin-left: -75px;
+        margin-top: -75px;
+        img {
+            display: block;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #percent {
+            width: 150px;
+            height: 150px;
+            position: absolute;
+            top: 96px;
+            left: 0;
+            text-align: center;
+            line-height: 150px;
+            font-size: 24px;
+        }
+    }
+}
+
+@-webkit-keyframes load {
+    0% {
+        -webkit-transform: rotateZ(0);
+    }
+    100% {
+        -webkit-transform: rotateZ(360deg);
+    }
+}
+
+@-webkit-keyframes start {
+    0%, 30% {
+        opacity: 0.2;
+        transform: translate(0, 10px);
+    }
+    60% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+    100% {
+        opacity: 0.2;
+        transform: translate(0, -5px);
+    }
+}
+
+.arrow {
+    position: fixed;
+    top: 94%;
+    left: 297px;
+    width: 46px;
+    height: 34px;
+    -webkit-animation: start 1.5s infinite ease-in-out;
+    animation: start 1.5s infinite ease-in-out;
+}

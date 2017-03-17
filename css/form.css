@@ -1,0 +1,149 @@
+body,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+form {
+  margin: 0;
+  padding: 0;
+}
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+body {
+  color: #333;
+  font: normal normal normal 14px/20px 'Microsoft YaHei', Arial, sans-serif;
+}
+img {
+  border: 0;
+}
+input[type="text"],
+input[type="password"],
+textarea,
+button {
+  vertical-align: middle;
+  -webkit-appearance: none;
+  font-family: 'Microsoft YaHei', Arial, sans-serif;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:link,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none;
+  outline: none;
+}
+table {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+table td {
+  padding: 0;
+}
+textarea {
+  resize: none;
+}
+html {
+  width: 100%;
+  min-height: 100%;
+}
+.clearFix:before,
+.clearFix:after {
+  content: " ";
+  display: table;
+}
+.clearFix:after {
+  clear: both;
+}
+.pullLeft {
+  float: left;
+}
+.pullRight {
+  float: right;
+}
+.textCenter {
+  text-align: center;
+}
+.textRight {
+  text-align: right;
+}
+.ellipsisNormal {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+img {
+  position: absolute;
+}
+.img1 {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.img2 {
+  width: 40%;
+  left: 30%;
+  top: 6%;
+}
+.img3,
+.img4 {
+  width: 80%;
+  top: 7%;
+  left: 10%;
+}
+.img5,
+.img6,
+.img7 {
+  width: 80%;
+  top: 32%;
+  left: 10%;
+}
+.form {
+  position: absolute;
+  width: 100%;
+  top: 42%;
+}
+.form input[type="text"] {
+  display: block;
+  width: 70%;
+  margin: 10px auto 0 auto;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 0 10px;
+  font-size: 14px;
+}
+.form #submit {
+  display: block;
+  background: none;
+  width: 120px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 16px;
+  border: 1px solid #59AAE2;
+  text-align: center;
+  margin: 20px auto 0 auto;
+  color: #4DE6EE;
+  font-weight: bold;
+}
