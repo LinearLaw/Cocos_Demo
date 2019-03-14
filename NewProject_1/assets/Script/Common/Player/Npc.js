@@ -36,6 +36,10 @@ cc.Class({
         },
         xSpeed:5,
         ySpeed:5,
+
+        timing:1,
+        keybordCtrl:false,
+
         screenSize:{
             default:{}
         },
@@ -45,15 +49,15 @@ cc.Class({
 
     onLoad () {
         this.screenSize = cc.winSize;
-        console.log(this.node,this.node.getComponent(cc.Sprite));
-        this.player = this.node.getComponent(cc.Sprite)
+
+        this.player = this.node.getComponent(cc.Sprite);
         this.npcPosition.x = this.node.x;
         this.npcPosition.y = this.node.y;
         this.xSpeed = 5;
         this.ySpeed = 5;
 
         this.timing = 1; // 时序，控制sprite
-        this.keybordCtrl = false;
+        this.keybordCtrl = false; // 键盘节流，防止按键触发事件过快
         
         // 初始化键盘输入监听
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
@@ -96,7 +100,6 @@ cc.Class({
 
     changePic(num){
         var _this = this;
-        console.log(`Player/NPC_1/NPC_${num}`);
         cc.loader.loadRes(`Player/NPC_1/NPC_${num}`, cc.SpriteFrame, (err, spriteFrame)=>{
             _this.player.spriteFrame = spriteFrame;
         });
