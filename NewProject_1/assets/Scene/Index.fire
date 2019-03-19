@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 1.0267407180503072,
-      "y": 1.0267407180503072,
+      "x": 0.7361501204998873,
+      "y": 0.7361501204998873,
       "z": 1
     },
     "_quat": {
@@ -71,14 +71,14 @@
         "__id__": 5
       },
       {
-        "__id__": 12
+        "__id__": 11
       }
     ],
     "_active": true,
     "_level": 0,
     "_components": [
       {
-        "__id__": 15
+        "__id__": 14
       }
     ],
     "_prefab": null,
@@ -210,7 +210,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "tiledmap",
+    "_name": "Tiledmap",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -228,9 +228,6 @@
     "_components": [
       {
         "__id__": 10
-      },
-      {
-        "__id__": 11
       }
     ],
     "_prefab": null,
@@ -406,7 +403,7 @@
     "_skewX": 0,
     "_skewY": 0,
     "groupIndex": 0,
-    "_id": "90f1Q0aD1ISpxBDkUSqRaA"
+    "_id": "92tM8bGSRKeIUP0QOVw6G6"
   },
   {
     "__type__": "cc.TiledLayer",
@@ -416,7 +413,7 @@
       "__id__": 8
     },
     "_enabled": true,
-    "_id": "86sC/q5xVPjrKaoDi5xqZX"
+    "_id": "26R73qOmJGfbVfdWFFxWVb"
   },
   {
     "__type__": "cc.TiledMap",
@@ -432,36 +429,8 @@
     "_id": "3f+TEpzFZL35KepzixkTUs"
   },
   {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 5
-    },
-    "_enabled": false,
-    "_spriteFrame": {
-      "__uuid__": "c327ab5b-db3a-46ba-975c-ede967a23341"
-    },
-    "_type": 2,
-    "_sizeMode": 0,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_state": 0,
-    "_atlas": null,
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_id": "e1GF89mT1DLamoj2kURH1C"
-  },
-  {
     "__type__": "cc.Node",
-    "_name": "player",
+    "_name": "Player",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -471,10 +440,10 @@
     "_level": 1,
     "_components": [
       {
-        "__id__": 13
+        "__id__": 12
       },
       {
-        "__id__": 14
+        "__id__": 13
       }
     ],
     "_prefab": null,
@@ -498,8 +467,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -22,
-      "y": 8,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_scale": {
@@ -527,7 +496,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 12
+      "__id__": 11
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -555,13 +524,20 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 12
+      "__id__": 11
     },
     "_enabled": true,
-    "player": null,
+    "map": {
+      "__id__": 10
+    },
+    "player": {
+      "__id__": 12
+    },
     "npcPosition": {},
+    "blockLayer": null,
     "xSpeed": 5,
     "ySpeed": 5,
+    "blockSpace": 10,
     "timing": 1,
     "keybordCtrl": false,
     "screenSize": {},
