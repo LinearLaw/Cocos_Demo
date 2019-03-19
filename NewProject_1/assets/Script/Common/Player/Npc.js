@@ -12,21 +12,12 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
+        // 地图
+        map: {
+            default:null,
+            type:cc.TiledMap
+        },
+        // 当前角色
         player:{
             default: null,
             type: cc.Sprite,
@@ -49,16 +40,15 @@ cc.Class({
 
     onLoad () {
         this.screenSize = cc.winSize;
-
-        this.player = this.node.getComponent(cc.Sprite);
+        
         this.npcPosition.x = this.node.x;
         this.npcPosition.y = this.node.y;
-        this.xSpeed = 5;
-        this.ySpeed = 5;
+        this.xSpeed = 15;
+        this.ySpeed = 15;
 
         this.timing = 1; // 时序，控制sprite
         this.keybordCtrl = false; // 键盘节流，防止按键触发事件过快
-        
+
         // 初始化键盘输入监听
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyDown, this);    
