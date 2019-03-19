@@ -8,6 +8,8 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
+const utils = require("../Utils/utils.js")
+
 cc.Class({
     extends: cc.Component,
 
@@ -27,10 +29,12 @@ cc.Class({
         },
         xSpeed:5,
         ySpeed:5,
+        blockSpace:10,
 
         timing:1,
         keybordCtrl:false,
 
+        // 屏幕大小
         screenSize:{
             default:{}
         },
@@ -40,9 +44,9 @@ cc.Class({
 
     onLoad () {
         this.screenSize = cc.winSize;
-        
-        this.npcPosition.x = this.node.x;
-        this.npcPosition.y = this.node.y;
+
+        this.npcPosition.x = this.screenSize.x / 2;
+        this.npcPosition.y = this.screenSize.y / 2;
         this.xSpeed = 15;
         this.ySpeed = 15;
 
@@ -95,17 +99,18 @@ cc.Class({
         });
     },
     setPosition (x,y) {
-        // if(x > this.screenSize.width){
-        //     x = this.screenSize.width;
-        // }else if(x < 0){
-        //     x = 0;
-        // }
-        // if(y > this.screenSize.height){
-        //     y = this.screenSize.height;
-        // }else if(y < 0){
-        //     y = 0;
-        // }
-        // console.log(x,y);
+        const _this = this;
+        let world = utils.localConvertWorldPointAR(this.node);
+        if(world.x > this.screenSize.width-this.blockSpace){
+            x = this.screenSize.width/2 - this.node.width/2;
+        }else if(world.x < this.blockSpace){
+            x = - this.screenSize.width/2 + this.node.width/2;
+        }
+        if(world.y > this.screenSize.height-this.blockSpace){
+            y = this.screenSize.height / 2 - this.node.height/2;
+        }else if(world.y < this.blockSpace){
+            y = - this.screenSize.height/2 + this.node.height/2;
+        }
 
         this.npcPosition.x = x;
         this.npcPosition.y = y;
