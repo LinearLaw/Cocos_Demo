@@ -27,6 +27,9 @@ cc.Class({
         npcPosition:{
             default:{}
         },
+        blockLayer:{
+            default:null
+        },
         xSpeed:5,
         ySpeed:5,
         blockSpace:10,
@@ -45,10 +48,12 @@ cc.Class({
     onLoad () {
         this.screenSize = cc.winSize;
 
+        this.blockLayer = this.map.getLayer('障碍');
+
         this.npcPosition.x = this.screenSize.x / 2;
         this.npcPosition.y = this.screenSize.y / 2;
-        this.xSpeed = 15;
-        this.ySpeed = 15;
+        this.xSpeed = 12;
+        this.ySpeed = 12;
 
         this.timing = 1; // 时序，控制sprite
         this.keybordCtrl = false; // 键盘节流，防止按键触发事件过快
@@ -74,21 +79,21 @@ cc.Class({
         switch(event.keyCode) {
             case cc.macro.KEY.up:
                 (this.timing >= 13 && this.timing < 16) ? this.timing++ : this.timing = 13;
-                this.setPosition(x,y + this.ySpeed);
+                this.setPosition(x,y,'up');
                 break;
             case cc.macro.KEY.down:
                 (this.timing >= 1 && this.timing < 4) ? this.timing++ : this.timing = 1;
-                this.setPosition(x,y - this.ySpeed);
+                this.setPosition(x,y,'down');
                 break;
             case cc.macro.KEY.left:
                 (this.timing >= 5 && this.timing < 8) ? this.timing++ : this.timing = 5;
-                this.setPosition(x - this.xSpeed,y);
+                this.setPosition(x,y,'left');
                 break;
             case cc.macro.KEY.right:
                 (this.timing >= 9 && this.timing < 12) ? this.timing++ : this.timing = 9;
-                this.setPosition(x + this.xSpeed,y);
+                this.setPosition(x,y,'right');
                 break;
-        }
+        };
         this.changePic(_this.timing);
     },
 
@@ -98,24 +103,46 @@ cc.Class({
             _this.player.spriteFrame = spriteFrame;
         });
     },
-    setPosition (x,y) {
+    setPosition (x,y,operate) {
         const _this = this;
-        let world = utils.localConvertWorldPointAR(this.node);
-        if(world.x > this.screenSize.width-this.blockSpace){
-            x = this.screenSize.width/2 - this.node.width/2;
-        }else if(world.x < this.blockSpace){
-            x = - this.screenSize.width/2 + this.node.width/2;
-        }
-        if(world.y > this.screenSize.height-this.blockSpace){
-            y = this.screenSize.height / 2 - this.node.height/2;
-        }else if(world.y < this.blockSpace){
-            y = - this.screenSize.height/2 + this.node.height/2;
+        let world = Object.assign({},utils.localConvertWorldPoint(this.node));
+        let willMoveWorld = Object.assign({},world); // 将要移动的点的世界坐标
+        let willMove = { x:x , y:y} // 将要移动的点的节点坐标
+        
+        switch (operate){
+            case 'up':
+                willMove.y = y + this.ySpeed;
+                willMoveWorld.y = world.y + this.ySpeed;
+                break;
+            case 'down':
+                willMove.y = y - this.ySpeed;
+                willMoveWorld.y = world.y - this.ySpeed;
+                break;
+            case 'left':
+                willMove.x = x - this.xSpeed;
+                willMoveWorld.x = world.x - this.xSpeed;
+                break;
+            case 'right':
+                willMove.x = x + this.xSpeed;
+                willMoveWorld.x = world.x + this.xSpeed;
+                break;
         }
 
-        this.npcPosition.x = x;
-        this.npcPosition.y = y;
+        // 限制用户无法移动到屏幕外
+        if(willMoveWorld.x > (this.screenSize.width-this.node.width)){
+            willMove.x = x;
+        }else if(willMoveWorld.x < 0){
+            willMove.x = x;
+        }
+        if(willMoveWorld.y > (this.screenSize.height-this.node.height)){
+            willMove.y = y;
+        }else if(willMoveWorld.y < 0){
+            willMove.y = y;
+        }
+
+        this.npcPosition.x = willMove.x;
+        this.npcPosition.y = willMove.y;
     },
-
 
     update (dt) {
         this.node.x = this.npcPosition.x;
