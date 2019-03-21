@@ -83,5 +83,56 @@
 
             // NPC.js ，某一个需要用到共享数据的组件
             var global = require("global.js");
-        
 
+    11、Tiled Map一种做碰撞检测思路
+        Cocos Creator 自己提供了一套碰撞系统，不过不太适合Tiled Map
+        主要是因为Tiled Map的障碍物太分散了，整个地图都是零散的。
+        研究了一下，提供一种Tiled Map的思路
+            1、设player 是一个sprite节点，map 是一个Tiled Map节点。
+                用户操作player的位置，进行左右移动，
+                map上面分层，障碍物一层，设为 soilLayer，
+                            非障碍物一层，设为 mainLayer。
+
+            2、player的上下左右移动，很简单，设置xy轴的坐标就行了。
+                可是，怎么判断当前player和Tiled Map的障碍层发生了重叠？
+
+            3、Tiled Map中，有个瓦片和瓦片坐标的概念，
+                瓦片是map中的单个图块，
+                单个瓦片坐标是当前处在x轴第几块y轴第几块；
+
+            4、  首先，将player挂到map节点旗下，
+                获取在map下的player坐标：
+                    let playerPos =cc.p(player.offset.x ,player.offset.y);
+                    // return {x:50,y:50} 相对于map节点而言的坐标。
+
+                接着，将playerPos转换成瓦片坐标：
+                    this.playerTile = this.getTilePosition(playerPos) ;
+
+                    getTilePosition:function(playerPos){
+                        let mapSize = this.node.getContentSize();
+                        let tileSize = this.map.getTileSize();
+                        let x = Math.floor(playerPos.x / tileSize.width) ;
+                        let y = Math.floor(playerPos.y / tileSize.height) ;
+                        return cc.v2(x ,y) ;
+                    },
+                
+                然后，关键步骤，碰撞检测就在此，根据用户按下的上下左右操作，
+                    给player的瓦片坐标进行x、y的+1-1，注意，是瓦片坐标，
+                    得到即将移动后的瓦片坐标，设为 playerTarTile，
+                    Tiled Map图层有一个方法getTileGIDAt，
+                        传入瓦片坐标，返回当前瓦片坐标下是否有图块，
+                        如果有图块，那就说明会发生碰撞，如果没有图块，那就可以移动。
+                    即：soilLayer.getTileGIDAt(playerTarTile)，
+                        // 返回 0 说明没有图块；
+                        // 返回GID，说明当前位置有图块
+                
+                最后，判断好了当前的player的瓦片坐标后，
+                    需要将瓦片坐标转换成像素坐标，对player设置像素坐标，从而移动。
+                    瓦片坐标转换成像素坐标，使用getPositionAt这个方法进行，
+
+                    let pos = this.mainLayer.getPositionAt(this.playerTile);
+                    this.player.setPosition(pos);
+
+
+
+                    

@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.7361501204998873,
-      "y": 0.7361501204998873,
+      "x": 0.255921477093849,
+      "y": 0.255921477093849,
       "z": 1
     },
     "_quat": {
@@ -78,7 +78,7 @@
     "_level": 0,
     "_components": [
       {
-        "__id__": 14
+        "__id__": 15
       }
     ],
     "_prefab": null,
@@ -444,6 +444,9 @@
       },
       {
         "__id__": 13
+      },
+      {
+        "__id__": 14
       }
     ],
     "_prefab": null,
@@ -542,6 +545,27 @@
     "keybordCtrl": false,
     "screenSize": {},
     "_id": "21cYf90JVB7ZBGAEMrEXcF"
+  },
+  {
+    "__type__": "cc.BoxCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 11
+    },
+    "_enabled": true,
+    "tag": 0,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_size": {
+      "__type__": "cc.Size",
+      "width": 26,
+      "height": 56
+    },
+    "_id": "ffUNSdcfxKZIIIGSvY4+0k"
   },
   {
     "__type__": "cc.Canvas",
