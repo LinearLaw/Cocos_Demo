@@ -12,6 +12,9 @@
   </data>
  </layer>
  <layer name="障碍" width="30" height="20">
+  <properties>
+   <property name="Collidable" value="true"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJxjYBiZgAmK0fm4xJDl0NWRau9AAHS3k4qpYS+5ekftJc1eUs2hRpokJu9QM10h20MPPYPJXnrGL6nlBq3sJUcvJWCk2outnsMVx/T2L7XrI3rUxQCqbQDL
   </data>
