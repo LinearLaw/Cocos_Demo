@@ -102,7 +102,11 @@
 
             4、  首先，将player挂到map节点旗下，
                 获取在map下的player坐标：
-                    let playerPos =cc.p(player.offset.x ,player.offset.y);
+                关键！！！编辑地图时，需要创建地图对象层，
+
+                    let objects = this.map.getObjectGroup('objects') ;
+                    let playerObj = objects.getObject('player') ;
+                    let playerPos =cc.p(playerObj.offset.x ,playerObj.offset.y);
                     // return {x:50,y:50} 相对于map节点而言的坐标。
 
                 接着，将playerPos转换成瓦片坐标：
