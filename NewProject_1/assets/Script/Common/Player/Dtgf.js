@@ -55,7 +55,7 @@ cc.Class({
         let playerObj = objects.getObject('player');
         let playerPos =cc.v2(playerObj.offset.x ,playerObj.offset.y);
         this.playerTile = this.getTilePosition(playerPos); // 转换成对应的瓦片坐标
-        console.log(this.playerTile);
+        console.log("==",this.playerTile,playerPos);
         this.updatePlayerPos();
 
         this.xSpeed = 12;
@@ -85,11 +85,11 @@ cc.Class({
         switch(event.keyCode) {
             case cc.macro.KEY.up:
                 (this.timing >= 13 && this.timing < 16) ? this.timing++ : this.timing = 13;
-                newTile.y = newTile.y+1;
+                newTile.y = newTile.y-1<0?0:newTile.y-1;
                 break;
             case cc.macro.KEY.down:
                 (this.timing >= 1 && this.timing < 4) ? this.timing++ : this.timing = 1;
-                newTile.y = newTile.y-1<0?0:newTile.y-1;
+                newTile.y = newTile.y+1;
                 break;
             case cc.macro.KEY.left:
                 (this.timing >= 5 && this.timing < 8) ? this.timing++ : this.timing = 5;
@@ -122,18 +122,23 @@ cc.Class({
     // 计算是否发生了碰撞
     tryToMove(newTile){
         console.log(newTile);
-        
-        if(this.blockLayer.getTileGIDAt(newTile)){
-            cc.log('hit the wall .') ;
-            return false ;
+        try{
+            if(this.blockLayer.getTileGIDAt(newTile)){
+                cc.log('hit the wall .') ;
+                return false;
+            }
+            this.playerTile = newTile;
+            this.updatePlayerPos();
+        }catch(e){
+            console.log(e,newTile);
         }
-        this.playerTile = newTile;
-        this.updatePlayerPos();
+        
     },
     // 根据player的瓦片坐标，转换成像素坐标，进行移动
     updatePlayerPos:function(){
         let pos = this.backLayer.getPositionAt(this.playerTile);
         this.player.setPosition(pos);
+        console.log(this.playerTile,pos);
     },
 
 
