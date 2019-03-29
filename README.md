@@ -137,6 +137,10 @@
                     let pos = this.mainLayer.getPositionAt(this.playerTile);
                     this.player.setPosition(pos);
 
+            注意！！！这里有个坑，创建了TiledMap之后，Tiled图层的Archor需要设置成x=0,y=0！
+                                同时，Tiled图层下面的所有跟地图有关的节点都要设置成x=0，y=0！
+                                否则碰撞的坐标就冲突！
+
 
 
                     

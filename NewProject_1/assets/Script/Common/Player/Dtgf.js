@@ -34,6 +34,10 @@ cc.Class({
             default: null,
             type: cc.Node,
         },
+        playerSprite:{
+            default: null,
+            type: cc.Sprite,
+        },
         xSpeed:5,
         ySpeed:5,
 
@@ -55,7 +59,6 @@ cc.Class({
         let playerObj = objects.getObject('player');
         let playerPos =cc.v2(playerObj.offset.x ,playerObj.offset.y);
         this.playerTile = this.getTilePosition(playerPos); // 转换成对应的瓦片坐标
-        console.log("==",this.playerTile,playerPos);
         this.updatePlayerPos();
 
         this.xSpeed = 12;
@@ -107,7 +110,9 @@ cc.Class({
     changePic(num){
         var _this = this;
         cc.loader.loadRes(`Player/NPC_2/DTGF_${num}`, cc.SpriteFrame, (err, spriteFrame)=>{
-            _this.player.spriteFrame = spriteFrame;
+            console.log(err);
+            console.log(spriteFrame);
+            _this.playerSprite.spriteFrame = spriteFrame;
         });
     },
     // 像素坐标转换成瓦片坐标
@@ -121,7 +126,6 @@ cc.Class({
 
     // 计算是否发生了碰撞
     tryToMove(newTile){
-        console.log(newTile);
         try{
             if(this.blockLayer.getTileGIDAt(newTile)){
                 cc.log('hit the wall .') ;
@@ -138,7 +142,6 @@ cc.Class({
     updatePlayerPos:function(){
         let pos = this.backLayer.getPositionAt(this.playerTile);
         this.player.setPosition(pos);
-        console.log(this.playerTile,pos);
     },
 
 
