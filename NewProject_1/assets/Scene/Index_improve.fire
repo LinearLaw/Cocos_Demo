@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.33402276984281937,
-      "y": 0.33402276984281937,
+      "x": 0.7673828125,
+      "y": 0.7673828125,
       "z": 1
     },
     "_quat": {
@@ -501,10 +501,15 @@
     "player": {
       "__id__": 10
     },
+    "playerSprite": {
+      "__id__": 13
+    },
     "xSpeed": 5,
     "ySpeed": 5,
     "timing": 1,
     "keybordCtrl": false,
+    "targetPosition": {},
+    "currentPosition": {},
     "screenSize": {},
     "_id": "a6rFHmeBNICqnV79ndERgf"
   },

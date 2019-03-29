@@ -44,6 +44,14 @@ cc.Class({
         timing:1,
         keybordCtrl:false,
 
+        // 坐标
+        targetPosition:{
+            default:{}
+        },
+        currentPosition:{
+            default:{}
+        },
+
         // 屏幕大小
         screenSize:{
             default:{}
@@ -57,7 +65,10 @@ cc.Class({
         this.screenSize = cc.winSize;
         let objects = this.map.getObjectGroup('objects');
         let playerObj = objects.getObject('player');
+
+        // 获取当前角色的坐标
         let playerPos =cc.v2(playerObj.offset.x ,playerObj.offset.y);
+        this.currentPosition = playerPos;
         this.playerTile = this.getTilePosition(playerPos); // 转换成对应的瓦片坐标
         this.updatePlayerPos();
 
@@ -71,7 +82,12 @@ cc.Class({
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyDown, this);    
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_LEFT, this.onKeyDown, this);    
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_RIGHT, this.onKeyDown, this);    
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_RIGHT, this.onKeyDown, this);  
+        
+        
+        this.schedule(function(){
+            _this.setPositionAsProgress(_this.currentPosition,_this.targetPosition);
+        }, 0.1);
     },
     // 时序  down:1-4,left:5-8,right:9-12,up:13-16
     onKeyDown(event){
@@ -110,8 +126,6 @@ cc.Class({
     changePic(num){
         var _this = this;
         cc.loader.loadRes(`Player/NPC_2/DTGF_${num}`, cc.SpriteFrame, (err, spriteFrame)=>{
-            console.log(err);
-            console.log(spriteFrame);
             _this.playerSprite.spriteFrame = spriteFrame;
         });
     },
@@ -128,7 +142,7 @@ cc.Class({
     tryToMove(newTile){
         try{
             if(this.blockLayer.getTileGIDAt(newTile)){
-                cc.log('hit the wall .') ;
+                cc.log('hit the wall .');
                 return false;
             }
             this.playerTile = newTile;
@@ -141,11 +155,43 @@ cc.Class({
     // 根据player的瓦片坐标，转换成像素坐标，进行移动
     updatePlayerPos:function(){
         let pos = this.backLayer.getPositionAt(this.playerTile);
-        this.player.setPosition(pos);
+        // this.player.setPosition(pos);
+        this.targetPosition = pos;
     },
-
-
+    // 设置坐标
+    setPositionAsProgress(current,target){
+        let diff = {
+            x:target.x - current.x,
+            y:target.y - current.y
+        }
+        if(diff.x != 0){
+            if(diff.x>0){
+                current.x = Math.abs(diff.x) <= this.xSpeed?target.x:current.x+this.xSpeed;
+                (this.timing >= 9 && this.timing < 12) ? this.timing++ : this.timing = 9;
+            }else{
+                current.x = Math.abs(diff.x) <= this.xSpeed?target.x:current.x-this.xSpeed;
+                (this.timing >= 5 && this.timing < 8) ? this.timing++ : this.timing = 5;
+            }
+            this.changePic(this.timing);
+            this.keybordCtrl = true;
+        }
+        if(diff.y != 0){
+            if(diff.y>0){
+                current.y = Math.abs(diff.y) <= this.ySpeed?target.y:current.y+this.ySpeed;
+                (this.timing >= 13 && this.timing < 16) ? this.timing++ : this.timing = 13;
+            }else{
+                current.y = Math.abs(diff.y) <= this.ySpeed?target.y:current.y-this.ySpeed;
+                (this.timing >= 1 && this.timing < 4) ? this.timing++ : this.timing = 1;
+            }
+            this.changePic(this.timing);
+            this.keybordCtrl = true;
+        }
+        this.player.setPosition(current);
+        if(diff.y == 0 && diff.x == 0){
+            this.keybordCtrl = false;
+        }
+    },
     update (dt) {
-
+        
     },
 });
