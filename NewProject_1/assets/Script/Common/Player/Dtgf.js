@@ -68,8 +68,13 @@ cc.Class({
 
         // 获取当前角色的坐标
         let playerPos =cc.v2(playerObj.offset.x ,playerObj.offset.y);
-        this.currentPosition = playerPos;
         this.playerTile = this.getTilePosition(playerPos); // 转换成对应的瓦片坐标
+
+        let pos = this.backLayer.getPositionAt(this.playerTile);
+        this.player.setPosition(pos)
+        this.currentPosition = pos;
+        this.targetPosition = pos;
+        
         this.updatePlayerPos();
 
         this.xSpeed = 12;
@@ -83,7 +88,6 @@ cc.Class({
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyDown, this);    
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_LEFT, this.onKeyDown, this);    
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_RIGHT, this.onKeyDown, this);  
-        
         
         this.schedule(function(){
             _this.setPositionAsProgress(_this.currentPosition,_this.targetPosition);
@@ -103,23 +107,23 @@ cc.Class({
         let newTile = Object.assign({},_this.playerTile);
         switch(event.keyCode) {
             case cc.macro.KEY.up:
-                (this.timing >= 13 && this.timing < 16) ? this.timing++ : this.timing = 13;
+                // (this.timing >= 13 && this.timing < 16) ? this.timing++ : this.timing = 13;
                 newTile.y = newTile.y-1<0?0:newTile.y-1;
                 break;
             case cc.macro.KEY.down:
-                (this.timing >= 1 && this.timing < 4) ? this.timing++ : this.timing = 1;
+                // (this.timing >= 1 && this.timing < 4) ? this.timing++ : this.timing = 1;
                 newTile.y = newTile.y+1;
                 break;
             case cc.macro.KEY.left:
-                (this.timing >= 5 && this.timing < 8) ? this.timing++ : this.timing = 5;
+                // (this.timing >= 5 && this.timing < 8) ? this.timing++ : this.timing = 5;
                 newTile.x = newTile.x-1<0?0:newTile.x-1;
                 break;
             case cc.macro.KEY.right:
-                (this.timing >= 9 && this.timing < 12) ? this.timing++ : this.timing = 9;
+                // (this.timing >= 9 && this.timing < 12) ? this.timing++ : this.timing = 9;
                 newTile.x = newTile.x+1;
                 break;
         };
-        this.changePic(_this.timing);
+        // this.changePic(_this.timing);
         this.tryToMove(newTile);
     },
     // 角色移动，切换图片
@@ -148,15 +152,15 @@ cc.Class({
             this.playerTile = newTile;
             this.updatePlayerPos();
         }catch(e){
-            console.log(e,newTile);
+            this.updatePlayerPos();
         }
         
     },
     // 根据player的瓦片坐标，转换成像素坐标，进行移动
     updatePlayerPos:function(){
         let pos = this.backLayer.getPositionAt(this.playerTile);
-        // this.player.setPosition(pos);
         this.targetPosition = pos;
+        // this.player.setPosition(pos);
     },
     // 设置坐标
     setPositionAsProgress(current,target){

@@ -20,6 +20,6 @@
   </data>
  </layer>
  <objectgroup name="objects">
-  <object name="player" x="47" y="589"/>
+  <object name="player" x="37" y="597"/>
  </objectgroup>
 </map>
