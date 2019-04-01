@@ -93,7 +93,7 @@ cc.Class({
             _this.setPositionAsProgress(_this.currentPosition,_this.targetPosition);
         }, 0.1);
     },
-    // 时序  down:1-4,left:5-8,right:9-12,up:13-16
+    
     onKeyDown(event){
         const _this = this;
         if(this.keybordCtrl == true){
@@ -107,19 +107,15 @@ cc.Class({
         let newTile = Object.assign({},_this.playerTile);
         switch(event.keyCode) {
             case cc.macro.KEY.up:
-                // (this.timing >= 13 && this.timing < 16) ? this.timing++ : this.timing = 13;
                 newTile.y = newTile.y-1<0?0:newTile.y-1;
                 break;
             case cc.macro.KEY.down:
-                // (this.timing >= 1 && this.timing < 4) ? this.timing++ : this.timing = 1;
                 newTile.y = newTile.y+1;
                 break;
             case cc.macro.KEY.left:
-                // (this.timing >= 5 && this.timing < 8) ? this.timing++ : this.timing = 5;
                 newTile.x = newTile.x-1<0?0:newTile.x-1;
                 break;
             case cc.macro.KEY.right:
-                // (this.timing >= 9 && this.timing < 12) ? this.timing++ : this.timing = 9;
                 newTile.x = newTile.x+1;
                 break;
         };
@@ -127,6 +123,7 @@ cc.Class({
         this.tryToMove(newTile);
     },
     // 角色移动，切换图片
+    // 时序  down:1-4,left:5-8,right:9-12,up:13-16
     changePic(num){
         var _this = this;
         cc.loader.loadRes(`Player/NPC_2/DTGF_${num}`, cc.SpriteFrame, (err, spriteFrame)=>{
@@ -170,9 +167,11 @@ cc.Class({
         }
         if(diff.x != 0){
             if(diff.x>0){
+                // 向右走
                 current.x = Math.abs(diff.x) <= this.xSpeed?target.x:current.x+this.xSpeed;
                 (this.timing >= 9 && this.timing < 12) ? this.timing++ : this.timing = 9;
             }else{
+                // 向左走
                 current.x = Math.abs(diff.x) <= this.xSpeed?target.x:current.x-this.xSpeed;
                 (this.timing >= 5 && this.timing < 8) ? this.timing++ : this.timing = 5;
             }
@@ -181,9 +180,11 @@ cc.Class({
         }
         if(diff.y != 0){
             if(diff.y>0){
+                // 向上走
                 current.y = Math.abs(diff.y) <= this.ySpeed?target.y:current.y+this.ySpeed;
                 (this.timing >= 13 && this.timing < 16) ? this.timing++ : this.timing = 13;
             }else{
+                // 向下走
                 current.y = Math.abs(diff.y) <= this.ySpeed?target.y:current.y-this.ySpeed;
                 (this.timing >= 1 && this.timing < 4) ? this.timing++ : this.timing = 1;
             }
