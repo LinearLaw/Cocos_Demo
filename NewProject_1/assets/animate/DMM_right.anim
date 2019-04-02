@@ -1,9 +1,43 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "",
+  "_name": "DMM_right",
   "_objFlags": 0,
-  "_duration": 0,
-  "sample": 60,
-  "curveData": {},
+  "_native": "",
+  "_duration": 1,
+  "sample": 4,
+  "speed": 1,
+  "wrapMode": "2",
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "95ed66fb-de64-4749-9e74-5c5f3637ab56"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "2dbb8060-baff-4357-9a46-94a506c8720d"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "8d755f71-8d2a-40b4-8767-7ac6a4c22ede"
+            }
+          },
+          {
+            "frame": 0.75,
+            "value": {
+              "__uuid__": "769f1b2c-c55e-4872-b383-c554ea0d0c5b"
+            }
+          }
+        ]
+      }
+    }
+  },
   "events": []
 }

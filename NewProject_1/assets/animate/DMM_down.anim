@@ -1,9 +1,9 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "DMM",
+  "_name": "DMM_down",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 1.75,
+  "_duration": 1,
   "sample": 4,
   "speed": 1,
   "wrapMode": "2",
@@ -12,25 +12,25 @@
       "cc.Sprite": {
         "spriteFrame": [
           {
-            "frame": 0.75,
+            "frame": 0,
             "value": {
               "__uuid__": "afe6b739-c865-46b4-afd4-42dc357d7393"
             }
           },
           {
-            "frame": 1,
+            "frame": 0.25,
             "value": {
               "__uuid__": "bc59318b-188a-4e58-96e1-24c351dd2660"
             }
           },
           {
-            "frame": 1.25,
+            "frame": 0.5,
             "value": {
               "__uuid__": "e1e7fc08-e4d8-4f9a-a72f-c1a75855ab86"
             }
           },
           {
-            "frame": 1.5,
+            "frame": 0.75,
             "value": {
               "__uuid__": "fa2ba985-627f-48a3-bb0f-564b5bc1dcd5"
             }

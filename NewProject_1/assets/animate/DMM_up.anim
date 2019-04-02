@@ -1,9 +1,43 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "",
+  "_name": "DMM_up",
   "_objFlags": 0,
-  "_duration": 0,
-  "sample": 60,
-  "curveData": {},
+  "_native": "",
+  "_duration": 1,
+  "sample": 4,
+  "speed": 1,
+  "wrapMode": "2",
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "d2d4dd2a-4d05-4da9-badd-576eb1addd03"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "571b79ae-a389-4eaa-8e10-313db5527e41"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "1b78cab8-40d5-46e8-a441-95f5c20cb4e9"
+            }
+          },
+          {
+            "frame": 0.75,
+            "value": {
+              "__uuid__": "8882de85-91c3-4c99-b444-d550e754e600"
+            }
+          }
+        ]
+      }
+    }
+  },
   "events": []
 }
