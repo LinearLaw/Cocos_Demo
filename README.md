@@ -1,4 +1,4 @@
-# Cocos Creator 
+# Cocos Creator
 
     Hello Cocos !!!
 
@@ -9,7 +9,7 @@
 
     2、事件监听
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-    
+
     3、事件keyCode
         event.keyCode
         cc.macro.KEY 该对象下有一堆的键盘按键名，直接用。
@@ -58,7 +58,7 @@
             观察【属性管理器】，可以看到有个属性叫做map，后面的值为null，
             在【层级管理器】中点击TiledMap节点，拖动到map后面的值当中，
             这时候，properties中的map就指向了同级下的TiledMap节点，可以直接在NPC.js中访问了。
-    
+
     9、在当前组件，访问子节点或当前节点
         访问当前组件的节点。
             var node = this.node;
@@ -119,7 +119,7 @@
                         let y = Math.floor(playerPos.y / tileSize.height) ;
                         return cc.v2(x ,y) ;
                     },
-                
+
                 然后，关键步骤，碰撞检测就在此，根据用户按下的上下左右操作，
                     给player的瓦片坐标进行x、y的+1-1，注意，是瓦片坐标，
                     得到即将移动后的瓦片坐标，设为 playerTarTile，
@@ -129,7 +129,7 @@
                     即：soilLayer.getTileGIDAt(playerTarTile)，
                         // 返回 0 说明没有图块；
                         // 返回GID，说明当前位置有图块
-                
+
                 最后，判断好了当前的player的瓦片坐标后，
                     需要将瓦片坐标转换成像素坐标，对player设置像素坐标，从而移动。
                     瓦片坐标转换成像素坐标，使用getPositionAt这个方法进行，
@@ -141,6 +141,11 @@
                                 同时，Tiled图层下面的所有跟地图有关的节点都要设置成x=0，y=0！
                                 否则碰撞的坐标就冲突！
 
+    12、动画
+        在使用动画节点之前，需要创建一副动作帧图像，
+            使用TexturePacker，导入多帧图片，生成plist文件。
 
-
-                    
+        设置动画，需要用到cocos creator的动画编辑器，动画编辑器在控制台旁边
+        启动编辑，然后设置帧动画，在plist文件下的单个图片拖进去，形成动画序列
+            编辑帧动画时，下方的sample的值，指的是动画每秒帧率，值越大，动画播放速度越快。
+            WrapMode，循环模式，设置loop，动画会循环播放。
