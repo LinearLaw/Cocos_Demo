@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "BAN_up",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1,
+  "sample": 4,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "094bb8b7-a913-4481-9759-0ec67434f56c"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "88970eaf-02b9-47fc-b8d8-4233b956d368"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "2012da90-c098-4733-8b78-d7ab80d53468"
+            }
+          },
+          {
+            "frame": 0.75,
+            "value": {
+              "__uuid__": "1c0d7d4f-4497-44a5-8ca3-18a37447d580"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

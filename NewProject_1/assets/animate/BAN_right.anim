@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "BAN_right",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.06666666666666667,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "c833ef6a-3aee-4154-8571-cab59e00cffd"
+            }
+          },
+          {
+            "frame": 0.016666666666666666,
+            "value": {
+              "__uuid__": "2c6cab1a-fd6d-446a-b524-e2626ee88616"
+            }
+          },
+          {
+            "frame": 0.03333333333333333,
+            "value": {
+              "__uuid__": "e1da2ea1-83ff-4a57-99be-b4266f668c4f"
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__uuid__": "909bf82d-b80a-4ea1-9547-4c09a45f43ad"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

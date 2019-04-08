@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "BAN_down",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1,
+  "sample": 4,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "52b09f0b-2a0f-41c2-93c8-f15bc75be48b"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "354f7692-d3c5-4ed7-a481-e98f108e55fd"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "6dd3a5a9-59a7-4929-bb05-1166f027ccfb"
+            }
+          },
+          {
+            "frame": 0.75,
+            "value": {
+              "__uuid__": "de294d38-5445-455a-8acf-6ce797a11f8a"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
