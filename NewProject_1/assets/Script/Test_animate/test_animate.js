@@ -24,7 +24,6 @@ cc.Class({
         setTimeout(()=>{
             _this.keybordCtrl = false;
         },100);
-        console.log(this.currentDirection);
         switch(event.keyCode) {
             case cc.macro.KEY.up:
                 this.currentDirection != 'up'?this.changeDirection('up'):1;
