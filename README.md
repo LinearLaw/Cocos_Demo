@@ -150,6 +150,12 @@
             编辑帧动画时，下方的sample的值，指的是动画每秒帧率，值越大，动画播放速度越快。
             WrapMode，循环模式，设置loop，动画会循环播放。
 
+    13、使用对象池
+        https://blog.csdn.net/jiuwanli666/article/details/79284101
+
+    14、prefab
+        https://docs.cocos.com/creator/manual/zh/asset-workflow/prefab.html
+
 # 性能优化
 
     1、Draw Call 
