@@ -152,9 +152,25 @@
 
     13、使用对象池
         https://blog.csdn.net/jiuwanli666/article/details/79284101
+        对象池可以提高性能。
+            - 预先创建出多个需要加载的实例，
+            - 需要渲染时从对象池中取出实例，
+            - 需要销毁时从界面中删除，并重新加入到对象池，便于下一次使用。
 
-    14、prefab
+    14、prefab，预制体
         https://docs.cocos.com/creator/manual/zh/asset-workflow/prefab.html
+        prefab归根结底是一个结点，这个结点抽象出来，成为了一个prefab文件。
+        当需要向界面中重复增加类似的结点时，就需要用到prefab，批量进行创建结点，加入到界面中。
+        prefab因为本质是结点，绑定一个js文件，实例化prefab后，可以使用js里面的方法。
+
+        将结点变更为prefab：拖动结点到资源管理器，即生成了一个prefab文件；
+        将prefab还原成结点：拖动prefab文件到层级管理器，即生成了一个结点；
+
+    15、如何修改一个prefab
+        （1）找到需要修改的prefab文件，拖动到层级管理器，prefab将实例化成为一个结点，
+        （2）对结点编辑，编辑完成后，重新拖回prefab文件夹中。
+        （3）接着，将原有的prefab文件删除，之前拖动到界面的结点也进行删除。
+        （4）修改js文件中关于prefab文件的引用，变更指向新创建的prefab文件。
 
 # 性能优化
 
@@ -164,6 +180,12 @@
         尽量减少渲染打断，不要使用系统字体。
 
     2、使用预制体Prefab
+        var item = cc.instantiate(this.itemPrefab);
+        item.getComponent('scoreItemTemplate').init({
+            score: data.score,
+            time: data.time,
+        }); // init是prefab绑定的js里面自定义的方法，可以直接调用
+        this.scrollContent.addChild(item);
 
 # 开发逻辑
 
