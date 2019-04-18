@@ -179,12 +179,56 @@ cc.Class({
     },
 
     onDestroy(){
-        // 取消键盘输入监听
+        // off keybord listener
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyDown, this);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_LEFT, this.onKeyDown, this);
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_RIGHT, this.onKeyDown, this);
     },
+
+    /**
+     * @desc A star algorithm
+     * @param target target location coordinate
+     * @param current current location coordinate
+     */
+    AStar（target,current）{
+        let diff = {
+            x:target.x-current.x,
+            y:target.y-current.y
+        }
+        if(diff.x == 0){
+            // arrive
+        }else{
+            let stepX = diff.x<0?current.x-1:current.x+1;
+            var csq = whetherCanMove(stepX,current.y); // for solid checking
+            if(csq==true){ // can move
+                pushToMoveArray(stepX,current.y);
+                AStar(target,{x:stepX,current.y});
+            }else{
+
+            }
+            return;
+        }
+        if(diff.y == 0){
+            // arrive
+        }else{
+            let stepY = diff.y<0?current.y-1:current.y+1;
+            var csq = whetherCanMove(current.y,stepY);// for solid checking
+            if(csq==true){ // can move
+                pushToMoveArray(current.x,stepY);
+                AStar(target,{x:current.x,y:stepY});
+            }else{
+
+            }
+            return;
+        }
+    },
+    whetherCanMove(x,y){
+        // 1、whether exist in solid tiled map
+        // 2、whether exist in move array
+        // return false or true
+    },
+    
 
     // update (dt) {},
 });
