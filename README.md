@@ -183,6 +183,12 @@
         （2）对结点编辑，编辑完成后，重新拖回prefab文件夹中。
         （3）接着，将原有的prefab文件删除，之前拖动到界面的结点也进行删除。
         （4）修改js文件中关于prefab文件的引用，变更指向新创建的prefab文件。
+    
+    16、TexturePacker——for create plist file
+        （1）导入图片
+        （2）Trim mode: none → 去除背景色
+        （3）Heuristic mask: true → 保持图片大小不变
+        （4）file -> publish
 
 # 性能优化
 
