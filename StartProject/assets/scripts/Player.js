@@ -14,6 +14,12 @@ cc.Class({
         jumpHeight:0,
         // 跳跃持续时间
         jumpDuration:0,
+
+        jumpAudio:{
+            default:null,
+            type:cc.AudioClip
+        },
+
         // 最大移动速度
         maxMoveSpeed:0,
         // 加速度
@@ -54,13 +60,19 @@ cc.Class({
             .moveBy(this.jumpDuration, cc.v2(0,-this.jumpHeight))
             .easing(cc.easeCubicActionIn());
 
+        let callback = cc.callFunc(this.playJumpSound,this);
         /**
          * 1、sequence，两个动作交替进行
          * 2、repeatForever，动作一直执行
+         *      可以传入一个回调函数，回调函数会在两个动作交替的时候执行
          */
-        return cc.repeatForever(cc.sequence(jumpUp,jumpDown))
+        return cc.repeatForever(cc.sequence(jumpUp,jumpDown,callback))
+    },
+    playJumpSound(){
+        cc.audioEngine.playEffect(this.jumpAudio,false);
     },
 
+    // 键盘按下
     onKeyDown(e){
         switch(e.keyCode){
             case cc.macro.KEY.left:
@@ -71,6 +83,7 @@ cc.Class({
                 break;
         }
     },
+    // 键盘弹起
     onKeyUp(e){
         switch(e.keyCode){
             case cc.macro.KEY.left:

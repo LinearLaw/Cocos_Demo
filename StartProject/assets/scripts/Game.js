@@ -43,6 +43,11 @@ cc.Class({
             type:cc.Label
         },
 
+        scoreAudio:{
+            default:null,
+            type:cc.AudioClip
+        },
+
 
     },
 
@@ -89,5 +94,7 @@ cc.Class({
     gainScore(){
         this.score = this.score + 1;
         this.scoreDisplay.string = `Score : ${this.score}`;
+
+        cc.audioEngine.playEffect(this.scoreAudio,false);
     }
 });

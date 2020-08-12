@@ -184,7 +184,7 @@
       "array": [
         0,
         0,
-        487.8564669162558,
+        487.56601139981825,
         0,
         0,
         0,
@@ -538,6 +538,9 @@
     "_enabled": true,
     "jumpHeight": 250,
     "jumpDuration": 0.3,
+    "jumpAudio": {
+      "__uuid__": "dc194f1a-c8a5-46ca-aaf9-f03b70974af5"
+    },
     "maxMoveSpeed": 400,
     "accel": 1000,
     "maxBackLeftWall": -500,
@@ -708,6 +711,9 @@
     },
     "scoreDisplay": {
       "__id__": 13
+    },
+    "scoreAudio": {
+      "__uuid__": "55d110b9-bab6-4d9d-9416-03e46904fa35"
     },
     "_id": "78TBz/XxpJ2IhXILatDniz"
   }

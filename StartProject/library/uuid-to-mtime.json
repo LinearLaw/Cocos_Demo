@@ -1,7 +1,7 @@
 {
   "0857d5e1-e5b1-48e2-80d6-5059f694276a": {
-    "asset": 1526930962000,
-    "meta": 1597138882592,
+    "asset": 1597237706721,
+    "meta": 1597238749040,
     "relativePath": "audio"
   },
   "55d110b9-bab6-4d9d-9416-03e46904fa35": {
@@ -10,8 +10,8 @@
     "relativePath": "audio\\score.mp3"
   },
   "69f63d8b-5ebb-431c-bcd3-64ff79aee4fe": {
-    "asset": 1597138882580,
-    "meta": 1597138883148,
+    "asset": 1597237706736,
+    "meta": 1597238749041,
     "relativePath": "migration"
   },
   "6bcc49c0-f5d4-42dc-be89-8beed47badbb": {
@@ -30,8 +30,8 @@
     "relativePath": "mikado_outline_shadow.fnt"
   },
   "d6ff10bc-4d58-4d63-8af4-19151a90da2c": {
-    "asset": 1526930962000,
-    "meta": 1597138883202,
+    "asset": 1597237706774,
+    "meta": 1597238749044,
     "relativePath": "textures"
   },
   "0af33f8b-4512-452f-8ffa-e0175cee767c": {
@@ -565,13 +565,13 @@
     "relativePath": "model\\primitives.fbx"
   },
   "2b8602bf-fa0f-4c32-ae2d-f64023be21d6": {
-    "asset": 1597217860404,
-    "meta": 1597217860405,
+    "asset": 1597237706747,
+    "meta": 1597238749043,
     "relativePath": "scripts"
   },
   "89c64963-aff6-445f-b496-6be36f280a92": {
-    "asset": 1597221806714,
-    "meta": 1597221806715,
+    "asset": 1597237706740,
+    "meta": 1597238749042,
     "relativePath": "prefab"
   },
   "9b27281e-5ba6-4c70-937b-3342dcfd2b70": {
@@ -580,23 +580,23 @@
     "relativePath": "prefab\\star.prefab"
   },
   "e6888453-3bd4-451d-8753-2a201f4888e5": {
-    "asset": 1597237674566,
-    "meta": 1597237674571,
+    "asset": 1597243100981,
+    "meta": 1597243100991,
     "relativePath": "HelloWorld.fire"
-  },
-  "924512c3-116c-45b5-bbeb-5123e7dafe7e": {
-    "asset": 1597236588189,
-    "meta": 1597236592452,
-    "relativePath": "scripts\\Player.js"
   },
   "1f1d50c1-6774-437f-9a43-368902358d47": {
     "asset": 1597237084476,
     "meta": 1597237107349,
     "relativePath": "scripts\\Star.js"
   },
+  "924512c3-116c-45b5-bbeb-5123e7dafe7e": {
+    "asset": 1597242902150,
+    "meta": 1597242916030,
+    "relativePath": "scripts\\Player.js"
+  },
   "10385636-795b-4e7c-9ae3-3186053c0e00": {
-    "asset": 1597237651036,
-    "meta": 1597237652079,
+    "asset": 1597243046603,
+    "meta": 1597243063535,
     "relativePath": "scripts\\Game.js"
   }
 }
