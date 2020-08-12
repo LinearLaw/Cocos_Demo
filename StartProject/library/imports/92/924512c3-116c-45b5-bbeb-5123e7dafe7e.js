@@ -18,6 +18,7 @@ cc.Class({
     jumpHeight: 0,
     // 跳跃持续时间
     jumpDuration: 0,
+    jumpTriggle: false,
     jumpAudio: {
       "default": null,
       type: cc.AudioClip
@@ -30,8 +31,61 @@ cc.Class({
     maxBackLeftWall: -500,
     maxBackRightWall: 500
   },
+  onLoad: function onLoad() {
+    // 1、角色默认动作 - 上下横跳
+    // this.jumpAction = this.setJumpAction();
+    // this.node.runAction(this.jumpAction);
+    // 2、加速度方向的开关
+    this.accLeft = false;
+    this.accRight = false; // 跳跃的开关
+
+    this.jumpTriggle = false, // 3、当前水平方向的速度
+    this.xSpeed = 0; // 4、挂载键盘事件
+
+    cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+    cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+  },
+  // 键盘按下
+  onKeyDown: function onKeyDown(e) {
+    switch (e.keyCode) {
+      case cc.macro.KEY.left:
+        this.accLeft = true;
+        break;
+
+      case cc.macro.KEY.right:
+        this.accRight = true;
+        break;
+
+      case cc.macro.KEY.alt:
+        if (this.jumpTriggle == false) {
+          this.jumpTriggle = true;
+          this.onJumpClick();
+        }
+
+        break;
+    }
+  },
+  // 键盘弹起
+  onKeyUp: function onKeyUp(e) {
+    switch (e.keyCode) {
+      case cc.macro.KEY.left:
+        this.accLeft = false;
+        this.setXSpeedInit();
+        break;
+
+      case cc.macro.KEY.right:
+        this.accRight = false;
+        this.setXSpeedInit();
+        break;
+
+      case cc.macro.KEY.alt:
+        break;
+    }
+  },
   // 设置跳跃动作
   setJumpAction: function setJumpAction() {
+    var _this = this;
+
     /**
      * 1、cc.moveBy，在指定的时间，移动指定的距离
      *      参数一，动作完成的时间
@@ -53,56 +107,35 @@ cc.Class({
      *      From：https://docs.cocos.com/creator/api/zh/modules/cc.html#easecubicactionout
      * 
      */
-    var jumpUp = cc.moveBy(this.jumpDuration, cc.v2(0, this.jumpHeight)).easing(cc.easeCubicActionOut());
-    var jumpDown = cc.moveBy(this.jumpDuration, cc.v2(0, -this.jumpHeight)).easing(cc.easeCubicActionIn());
-    var callback = cc.callFunc(this.playJumpSound, this);
+    // 1、播放音乐
+    var callback = cc.callFunc(this.playJumpSound, this); // 2、跳起
+
+    var jumpUp = cc.moveBy(this.jumpDuration, cc.v2(0, this.jumpHeight)).easing(cc.easeCubicActionOut()); // 3、下落
+
+    var jumpDown = cc.moveBy(this.jumpDuration, cc.v2(0, -this.jumpHeight)).easing(cc.easeCubicActionIn()); // 4、将跳跃锁定打开
+
+    var afterAction = cc.callFunc(function () {
+      _this.jumpTriggle = false;
+    });
     /**
-     * 1、sequence，两个动作交替进行
+     * 1、sequence，动作序列，里面的是一连串的动作
      * 2、repeatForever，动作一直执行
      *      可以传入一个回调函数，回调函数会在两个动作交替的时候执行
      */
 
-    return cc.repeatForever(cc.sequence(jumpUp, jumpDown, callback));
+    return cc.sequence([callback, jumpUp, jumpDown, afterAction]);
   },
   playJumpSound: function playJumpSound() {
     cc.audioEngine.playEffect(this.jumpAudio, false);
   },
-  // 键盘按下
-  onKeyDown: function onKeyDown(e) {
-    switch (e.keyCode) {
-      case cc.macro.KEY.left:
-        this.accLeft = true;
-        break;
-
-      case cc.macro.KEY.right:
-        this.accRight = true;
-        break;
-    }
-  },
-  // 键盘弹起
-  onKeyUp: function onKeyUp(e) {
-    switch (e.keyCode) {
-      case cc.macro.KEY.left:
-        this.accLeft = false;
-        break;
-
-      case cc.macro.KEY.right:
-        this.accRight = false;
-        break;
-    }
-  },
-  onLoad: function onLoad() {
-    // 1、角色默认动作 - 上下横跳
+  // 按下跳跃键
+  onJumpClick: function onJumpClick() {
     this.jumpAction = this.setJumpAction();
-    this.node.runAction(this.jumpAction); // 2、加速度方向的开关
-
-    this.accLeft = false;
-    this.accRight = false; // 3、当前水平方向的速度
-
-    this.xSpeed = 0; // 4、挂载键盘事件
-
-    cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-    cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+    this.node.runAction(this.jumpAction);
+  },
+  // 横向speed归零
+  setXSpeedInit: function setXSpeedInit() {
+    this.xSpeed = 0;
   },
   // 视图渲染的每一帧，将会执行一次update
   update: function update(dt) {
@@ -131,12 +164,12 @@ cc.Class({
         maxBackRightWall = this.maxBackRightWall;
 
     if (temp < 0 && Math.abs(temp) > Math.abs(maxBackLeftWall)) {
-      this.xSpeed = 0;
+      this.setXSpeedInit();
       return maxBackLeftWall;
     }
 
     if (temp > 0 && Math.abs(temp) > Math.abs(maxBackRightWall)) {
-      this.xSpeed = 0;
+      this.setXSpeedInit();
       return maxBackRightWall;
     }
 

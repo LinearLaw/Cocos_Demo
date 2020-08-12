@@ -17,10 +17,14 @@ cc.Class({
             default:null,
             type: cc.Prefab
         },
-        starCount:{
+        // 星星的初始个数
+        STAR_COUNT:{
             default:1,
             type:cc.Integer,
         },
+        // 每获得多少个星星，stage+1，星星数也+1
+        STAGE_COUNT:100,
+        MAX_STAR_COUNT:15,  // 界面中增加星星的最大个数
 
         // 星星消失时间的范围
         maxStarDuration:0,
@@ -37,29 +41,29 @@ cc.Class({
             default:null,
             type:cc.Node,
         },
-
+        // 分数文本节点
         scoreDisplay:{
             default:null,
             type:cc.Label
         },
 
+        // 得分音效
         scoreAudio:{
             default:null,
             type:cc.AudioClip
         },
-
-
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        // 获取地板的高度
         this.groundY = this.ground.y + this.ground.height/2;
 
-        for(let i = 0;i < this.starCount;i++){
+        // 初始时，生成多个星星
+        for(let i = 0;i < this.STAR_COUNT;i++){
             this.generateNewStar();
         }
-
 
         this.score = 0;
     },
@@ -76,7 +80,6 @@ cc.Class({
 
         // 4、在星星组件上，暂存Game对象的引用
         newStar.getComponent("Star").game = this;
-        
     },
 
     // 生成随机位置
@@ -90,11 +93,23 @@ cc.Class({
     },
 
     // update (dt) {},
-
+    
     gainScore(){
-        this.score = this.score + 1;
-        this.scoreDisplay.string = `Score : ${this.score}`;
+        let tempScore = this.score + 1;
+
+        // 每过 STAGE_COUNT 分，界面上多一个星星，最多增加MAX_STAR_COUNT个
+        let tempCount = Math.floor(tempScore/this.STAGE_COUNT)
+        if(tempCount <= this.MAX_STAR_COUNT 
+            && Math.floor(this.score / this.STAGE_COUNT) < tempCount
+        ){
+            this.generateNewStar()
+        }
+
+        this.score = tempScore;
+        this.scoreDisplay.string = `Score : ${this.score} -Stage  : ${tempCount}`;
 
         cc.audioEngine.playEffect(this.scoreAudio,false);
+
+
     }
 });

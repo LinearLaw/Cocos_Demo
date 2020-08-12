@@ -183,7 +183,7 @@
       "array": [
         0,
         0,
-        487.8564669162558,
+        487.56601139981825,
         0,
         0,
         0,
@@ -537,6 +537,10 @@
     "_enabled": true,
     "jumpHeight": 250,
     "jumpDuration": 0.3,
+    "jumpTriggle": false,
+    "jumpAudio": {
+      "__uuid__": "dc194f1a-c8a5-46ca-aaf9-f03b70974af5"
+    },
     "maxMoveSpeed": 400,
     "accel": 1000,
     "maxBackLeftWall": -500,
@@ -568,7 +572,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 180,
+      "width": 398.75,
       "height": 45
     },
     "_anchorPoint": {
@@ -621,8 +625,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "Score : 0",
-    "_N$string": "Score : 0",
+    "_string": "Score : 0 - Stage  : 0",
+    "_N$string": "Score : 0 - Stage  : 0",
     "_fontSize": 45,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -696,7 +700,8 @@
     "starPrefab": {
       "__uuid__": "9b27281e-5ba6-4c70-937b-3342dcfd2b70"
     },
-    "starCount": 5,
+    "STAR_COUNT": 5,
+    "STAGE_COUNT": 100,
     "maxStarDuration": 0,
     "minStarDuration": 0,
     "ground": {
@@ -707,6 +712,9 @@
     },
     "scoreDisplay": {
       "__id__": 13
+    },
+    "scoreAudio": {
+      "__uuid__": "55d110b9-bab6-4d9d-9416-03e46904fa35"
     },
     "_id": "78TBz/XxpJ2IhXILatDniz"
   }

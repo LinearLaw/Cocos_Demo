@@ -580,8 +580,8 @@
     "relativePath": "prefab\\star.prefab"
   },
   "e6888453-3bd4-451d-8753-2a201f4888e5": {
-    "asset": 1597243100981,
-    "meta": 1597243100991,
+    "asset": 1597244845161,
+    "meta": 1597244845167,
     "relativePath": "HelloWorld.fire"
   },
   "1f1d50c1-6774-437f-9a43-368902358d47": {
@@ -590,13 +590,13 @@
     "relativePath": "scripts\\Star.js"
   },
   "924512c3-116c-45b5-bbeb-5123e7dafe7e": {
-    "asset": 1597242902150,
-    "meta": 1597242916030,
+    "asset": 1597244782388,
+    "meta": 1597244794046,
     "relativePath": "scripts\\Player.js"
   },
   "10385636-795b-4e7c-9ae3-3186053c0e00": {
-    "asset": 1597243046603,
-    "meta": 1597243063535,
+    "asset": 1597245208168,
+    "meta": 1597245216904,
     "relativePath": "scripts\\Game.js"
   }
 }

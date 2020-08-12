@@ -537,6 +537,7 @@
     "_enabled": true,
     "jumpHeight": 250,
     "jumpDuration": 0.3,
+    "jumpTriggle": false,
     "jumpAudio": {
       "__uuid__": "dc194f1a-c8a5-46ca-aaf9-f03b70974af5"
     },
@@ -571,7 +572,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 180,
+      "width": 398.75,
       "height": 45
     },
     "_anchorPoint": {
@@ -624,8 +625,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "Score : 0",
-    "_N$string": "Score : 0",
+    "_string": "Score : 0 - Stage  : 0",
+    "_N$string": "Score : 0 - Stage  : 0",
     "_fontSize": 45,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -699,7 +700,8 @@
     "starPrefab": {
       "__uuid__": "9b27281e-5ba6-4c70-937b-3342dcfd2b70"
     },
-    "starCount": 5,
+    "STAR_COUNT": 5,
+    "STAGE_COUNT": 10,
     "maxStarDuration": 0,
     "minStarDuration": 0,
     "ground": {

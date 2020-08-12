@@ -1,6 +1,6 @@
 
 (function () {
-var scripts = [{"deps":{"./assets/scripts/Game":1,"./assets/scripts/Player":4,"./assets/migration/use_v2.0.x_cc.Toggle_event":2,"./assets/scripts/Star":3},"path":"preview-scripts/__qc_index__.js"},{"deps":{},"path":"preview-scripts/assets/scripts/Game.js"},{"deps":{},"path":"preview-scripts/assets/migration/use_v2.0.x_cc.Toggle_event.js"},{"deps":{},"path":"preview-scripts/assets/scripts/Star.js"},{"deps":{},"path":"preview-scripts/assets/scripts/Player.js"}];
+var scripts = [{"deps":{"./assets/scripts/Game":1,"./assets/scripts/Star":3,"./assets/scripts/Player":4,"./assets/migration/use_v2.0.x_cc.Toggle_event":2},"path":"preview-scripts/__qc_index__.js"},{"deps":{},"path":"preview-scripts/assets/scripts/Game.js"},{"deps":{},"path":"preview-scripts/assets/migration/use_v2.0.x_cc.Toggle_event.js"},{"deps":{},"path":"preview-scripts/assets/scripts/Star.js"},{"deps":{},"path":"preview-scripts/assets/scripts/Player.js"}];
 var entries = ["preview-scripts/__qc_index__.js"];
 var bundleScript = 'preview-scripts/__qc_bundle__.js';
 

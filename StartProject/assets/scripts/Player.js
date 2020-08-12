@@ -15,6 +15,14 @@ cc.Class({
         // 跳跃持续时间
         jumpDuration:0,
 
+        
+        /**
+         * 思考：如果要实现二段跳？
+         *      改成int类型，判断是否大于2来进行锁定，落地归0
+         */
+        // 跳跃键的锁定，false不锁定，true锁定
+        jumpLock:false,
+
         jumpAudio:{
             default:null,
             type:cc.AudioClip
@@ -28,6 +36,78 @@ cc.Class({
         // 左右的墙
         maxBackLeftWall:-500,
         maxBackRightWall:500,
+    },
+
+    onLoad () {
+        // 1、角色默认动作 - 上下横跳
+        // this.jumpAction = this.setJumpAction();
+        // this.node.runAction(this.jumpAction);
+
+        // 2、加速度方向的开关
+        this.accLeft = false;
+        this.accRight = false;
+
+        // 跳跃按键的锁定开关 - 防止用户按多次导致跳跃动作叠加
+        this.jumpLock = false,
+
+        // 3、当前水平方向的速度
+        this.xSpeed = 0;
+
+        // 4、挂载键盘事件，按下，弹起
+        cc.systemEvent.on(
+            cc.SystemEvent.EventType.KEY_DOWN,
+            this.onKeyDown,
+            this
+        );
+        cc.systemEvent.on(
+            cc.SystemEvent.EventType.KEY_UP,
+            this.onKeyUp,
+            this
+        )
+    },
+
+    // 键盘按下
+    onKeyDown(e){
+        switch(e.keyCode){
+            case cc.macro.KEY.left:
+                this.accLeft = true;
+                break;
+            case cc.macro.KEY.right:
+                this.accRight = true;
+                break;
+            // 按下alt键，角色跳跃
+            case cc.macro.KEY.alt:
+                if(this.jumpLock == false){
+                    this.jumpLock = true;
+                    this.onJumpClick();
+                }
+                break;
+        }
+    },
+    // 键盘弹起
+    onKeyUp(e){
+        switch(e.keyCode){
+            case cc.macro.KEY.left:
+                this.accLeft = false;
+                this.setXSpeedInit();
+                break;
+            case cc.macro.KEY.right:
+                this.accRight = false;
+                this.setXSpeedInit();
+                break;
+            case cc.macro.KEY.alt:
+                break;
+        }
+    },
+    // 播放跳跃音效
+    playJumpSound(){
+        cc.audioEngine.playEffect(this.jumpAudio,false);
+    },
+
+    // 按下跳跃键
+    onJumpClick(){
+        this.jumpAction = this.setJumpAction();
+        this.node.runAction(this.jumpAction);
     },
 
     // 设置跳跃动作
@@ -53,71 +133,33 @@ cc.Class({
          *      From：https://docs.cocos.com/creator/api/zh/modules/cc.html#easecubicactionout
          * 
          */
+        // 1、播放音乐
+        let callback = cc.callFunc(this.playJumpSound,this);
+
+        // 2、跳起
         let jumpUp = cc
             .moveBy(this.jumpDuration, cc.v2(0,this.jumpHeight))
             .easing(cc.easeCubicActionOut());
+        // 3、下落
         let jumpDown = cc
             .moveBy(this.jumpDuration, cc.v2(0,-this.jumpHeight))
             .easing(cc.easeCubicActionIn());
-
-        let callback = cc.callFunc(this.playJumpSound,this);
+        // 4、将跳跃锁定打开
+        let afterAction = cc.callFunc(()=>{
+            this.jumpLock = false;
+        })
+        
         /**
-         * 1、sequence，两个动作交替进行
+         * 1、sequence，动作序列，里面的是一连串的动作，可以传多个参数，也可以传一个动作数组
          * 2、repeatForever，动作一直执行
          *      可以传入一个回调函数，回调函数会在两个动作交替的时候执行
          */
-        return cc.repeatForever(cc.sequence(jumpUp,jumpDown,callback))
+        return cc.sequence([callback,jumpUp,jumpDown,afterAction])
     },
-    playJumpSound(){
-        cc.audioEngine.playEffect(this.jumpAudio,false);
-    },
-
-    // 键盘按下
-    onKeyDown(e){
-        switch(e.keyCode){
-            case cc.macro.KEY.left:
-                this.accLeft = true;
-                break;
-            case cc.macro.KEY.right:
-                this.accRight = true;
-                break;
-        }
-    },
-    // 键盘弹起
-    onKeyUp(e){
-        switch(e.keyCode){
-            case cc.macro.KEY.left:
-                this.accLeft = false;
-                break;
-            case cc.macro.KEY.right:
-                this.accRight = false;
-                break;
-        }
-    },
-
-    onLoad () {
-        // 1、角色默认动作 - 上下横跳
-        this.jumpAction = this.setJumpAction();
-        this.node.runAction(this.jumpAction);
-
-        // 2、加速度方向的开关
-        this.accLeft = false;
-        this.accRight = false;
-
-        // 3、当前水平方向的速度
+    
+    // 横向speed归零
+    setXSpeedInit(){
         this.xSpeed = 0;
-
-        // 4、挂载键盘事件
-        cc.systemEvent.on(
-            cc.SystemEvent.EventType.KEY_DOWN,
-            this.onKeyDown,
-            this
-        );
-        cc.systemEvent.on(
-            cc.SystemEvent.EventType.KEY_UP,
-            this.onKeyUp,
-            this
-        )
     },
 
     // 视图渲染的每一帧，将会执行一次update
@@ -148,16 +190,15 @@ cc.Class({
             maxBackRightWall
         } = this;
         if(temp < 0 && Math.abs(temp) > Math.abs(maxBackLeftWall) ){
-            this.xSpeed = 0;
+            this.setXSpeedInit();
             return maxBackLeftWall
         }
         if(temp > 0 && Math.abs(temp) > Math.abs(maxBackRightWall) ){
-            this.xSpeed = 0;
+            this.setXSpeedInit();
             return maxBackRightWall
         }
         return temp;
     },
-
 
     onDestroy(){
         // 组件销毁时，将绑定的键盘事件解绑
@@ -172,6 +213,4 @@ cc.Class({
             this
         )
     },
-
-    // update (dt) {},
 });
