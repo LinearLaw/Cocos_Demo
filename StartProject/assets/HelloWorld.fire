@@ -537,7 +537,7 @@
     "_enabled": true,
     "jumpHeight": 250,
     "jumpDuration": 0.3,
-    "jumpTriggle": false,
+    "jumpLock": false,
     "jumpAudio": {
       "__uuid__": "dc194f1a-c8a5-46ca-aaf9-f03b70974af5"
     },
@@ -702,6 +702,7 @@
     },
     "STAR_COUNT": 5,
     "STAGE_COUNT": 10,
+    "MAX_STAR_COUNT": 15,
     "maxStarDuration": 0,
     "minStarDuration": 0,
     "ground": {

@@ -701,7 +701,7 @@
       "__uuid__": "9b27281e-5ba6-4c70-937b-3342dcfd2b70"
     },
     "STAR_COUNT": 5,
-    "STAGE_COUNT": 100,
+    "STAGE_COUNT": 10,
     "maxStarDuration": 0,
     "minStarDuration": 0,
     "ground": {

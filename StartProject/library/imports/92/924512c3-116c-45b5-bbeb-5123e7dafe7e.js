@@ -18,7 +18,13 @@ cc.Class({
     jumpHeight: 0,
     // 跳跃持续时间
     jumpDuration: 0,
-    jumpTriggle: false,
+
+    /**
+     * 思考：如果要实现二段跳？
+     *      改成int类型，判断是否大于2来进行锁定，落地归0
+     */
+    // 跳跃键的锁定，false不锁定，true锁定
+    jumpLock: false,
     jumpAudio: {
       "default": null,
       type: cc.AudioClip
@@ -37,10 +43,10 @@ cc.Class({
     // this.node.runAction(this.jumpAction);
     // 2、加速度方向的开关
     this.accLeft = false;
-    this.accRight = false; // 跳跃的开关
+    this.accRight = false; // 跳跃按键的锁定开关 - 防止用户按多次导致跳跃动作叠加
 
-    this.jumpTriggle = false, // 3、当前水平方向的速度
-    this.xSpeed = 0; // 4、挂载键盘事件
+    this.jumpLock = false, // 3、当前水平方向的速度
+    this.xSpeed = 0; // 4、挂载键盘事件，按下，弹起
 
     cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
     cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
@@ -55,10 +61,11 @@ cc.Class({
       case cc.macro.KEY.right:
         this.accRight = true;
         break;
+      // 按下alt键，角色跳跃
 
       case cc.macro.KEY.alt:
-        if (this.jumpTriggle == false) {
-          this.jumpTriggle = true;
+        if (this.jumpLock == false) {
+          this.jumpLock = true;
           this.onJumpClick();
         }
 
@@ -81,6 +88,15 @@ cc.Class({
       case cc.macro.KEY.alt:
         break;
     }
+  },
+  // 播放跳跃音效
+  playJumpSound: function playJumpSound() {
+    cc.audioEngine.playEffect(this.jumpAudio, false);
+  },
+  // 按下跳跃键
+  onJumpClick: function onJumpClick() {
+    this.jumpAction = this.setJumpAction();
+    this.node.runAction(this.jumpAction);
   },
   // 设置跳跃动作
   setJumpAction: function setJumpAction() {
@@ -115,23 +131,15 @@ cc.Class({
     var jumpDown = cc.moveBy(this.jumpDuration, cc.v2(0, -this.jumpHeight)).easing(cc.easeCubicActionIn()); // 4、将跳跃锁定打开
 
     var afterAction = cc.callFunc(function () {
-      _this.jumpTriggle = false;
+      _this.jumpLock = false;
     });
     /**
-     * 1、sequence，动作序列，里面的是一连串的动作
+     * 1、sequence，动作序列，里面的是一连串的动作，可以传多个参数，也可以传一个动作数组
      * 2、repeatForever，动作一直执行
      *      可以传入一个回调函数，回调函数会在两个动作交替的时候执行
      */
 
     return cc.sequence([callback, jumpUp, jumpDown, afterAction]);
-  },
-  playJumpSound: function playJumpSound() {
-    cc.audioEngine.playEffect(this.jumpAudio, false);
-  },
-  // 按下跳跃键
-  onJumpClick: function onJumpClick() {
-    this.jumpAction = this.setJumpAction();
-    this.node.runAction(this.jumpAction);
   },
   // 横向speed归零
   setXSpeedInit: function setXSpeedInit() {
@@ -179,8 +187,7 @@ cc.Class({
     // 组件销毁时，将绑定的键盘事件解绑
     cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
     cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-  } // update (dt) {},
-
+  }
 });
 
 cc._RF.pop();
