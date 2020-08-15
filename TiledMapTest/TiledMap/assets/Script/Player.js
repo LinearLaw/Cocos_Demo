@@ -17,6 +17,11 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        worldMap:{
+            default:null,
+            type:cc.TiledMap
+        },
+
         /**
          * 方向指示器
          */
@@ -28,9 +33,9 @@ cc.Class({
         directionAccel:200,
     },
 
-    // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        // 绑定键盘事件
         cc.systemEvent.on(
             cc.SystemEvent.EventType.KEY_DOWN,
             this.onKeyPress,
@@ -43,6 +48,7 @@ cc.Class({
         )
     },
     onDestroy(){
+        // 解除键盘事件
         cc.systemEvent.off(
             cc.SystemEvent.EventType.KEY_DOWN,
             this.onKeyPress,
@@ -87,7 +93,76 @@ cc.Class({
 
     },
 
+    // 发生了碰撞 - 会发生穿透，不用它了
+    // onCollisionEnter: function (other, self) {
+    //     const offset = 5;
+    //     switch(this._direction){
+    //         case DIR_TYPE.left:
+    //             this.node.x = self.node.x + offset;
+    //             break;
+    //         case DIR_TYPE.right:
+    //             this.node.x = self.node.x - offset;
+    //             break;
+    //         case DIR_TYPE.up:
+    //             this.node.y = self.node.y - offset;
+    //             break;
+    //         case DIR_TYPE.down:
+    //             this.node.y = self.node.y + offset;
+    //             break;
+    //         default:break;
+    //     }
+    //     this._direction = 0;
+    // },
+
+    //
+    /**
+     * 将像素坐标转化为瓦片坐标，再计算该节点所在的 tiled 的 gid，没有瓦片则返回0，
+     * @param {*} x 
+     * @param {*} y 
+     * @param {*} layer 
+     */
+    calcGid (x,y,layer){
+        // posInPixel：目标节点的position
+        const posInPixel = cc.v2(x,y);
+
+        var mapSize = this.worldMap.node.getContentSize();
+        var tileSize = this.worldMap.getTileSize();
+
+        var xInTiled = (posInPixel.x / tileSize.width);
+        var yInTiled = ((mapSize.height - posInPixel.y) / tileSize.height);
+
+        return layer.getTileGIDAt( cc.v2(xInTiled,yInTiled) );
+    },
+    // 检测角色的四个角的碰撞，有一个角碰撞都不行
+    calcCollidate(x,y){
+        var layer = this.worldMap.getLayer('blocks');
+        if(layer){
+            let width = this.node.width;
+            let height = this.node.height;
+            try{
+                if( this.calcGid(x-width/2, y+height/2, layer) 
+                    || this.calcGid(x-width/2, y-height/2, layer)
+                    || this.calcGid(x+width/2, y-height/2, layer)
+                    || this.calcGid(x+width/2, y+height/2, layer)
+                ){  // 碰撞
+                    console.log("发生了碰撞")
+                    return { x:this.node.x, y:this.node.y }
+                }else {
+                    return {x,y}
+                }
+            }catch(e){
+                console.log("地图边界发生错误");
+                // console.log(e);
+                return { x:this.node.x, y:this.node.y }
+            }
+        }
+
+        return { x:x, y:y }
+    },
     update (dt) {
+        // 1、判断当前的行动方向。计算出位移量，并生成新的xy坐标
+        let x = this.node.x;
+        let y = this.node.y;
         if(this._direction === DIR_TYPE.left || this._direction===DIR_TYPE.right){
             let xOffset = 0;
             switch(this._direction){
@@ -99,7 +174,7 @@ cc.Class({
                     break;
                 default:break;
             }
-            this.node.x = this.node.x + xOffset;
+            x = x + xOffset;
         }
         if(this._direction === DIR_TYPE.up || this._direction===DIR_TYPE.down){
             let yOffset = 0;
@@ -112,7 +187,12 @@ cc.Class({
                     break;
                 default:break;
             }
-            this.node.y = this.node.y + yOffset;
+            y = y + yOffset;
         }
+
+        // 2、判断当前的坐标是否和障碍物发生了碰撞
+        let result = this.calcCollidate(x,y);
+        this.node.x = result.x;
+        this.node.y = result.y;
     },
 });

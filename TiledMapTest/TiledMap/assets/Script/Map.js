@@ -27,17 +27,21 @@ cc.Class({
     },
 
     start () {
-
+        // this.addWallCollision();
+    },
+    // 给边缘墙体增加碰撞检测 - 现在没啥用。
+    addWallCollision(){
         // 获取碰撞对象
         const collisionPoints = this.worldMap.getObjectGroup(this.CollisionsGroupName);
+
         const objects = collisionPoints.getObjects();
+
         for(let i = 0;i<objects.length;i++){
             let collidItem = objects[i];
 
             // 初始化一个空节点
             const node = cc.instantiate(this.ColliderPrefab);
             node.setAnchorPoint(0.5,0.5);
-            console.log(collidItem);
 
             node.width = collidItem.width;
             node.height = collidItem.height;
@@ -56,7 +60,7 @@ cc.Class({
             // 加入到界面中
             this.node.addChild(node);
         }
-    },
+    }
 
     // update (dt) {},
 });
