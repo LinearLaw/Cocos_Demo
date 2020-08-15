@@ -80,6 +80,7 @@ cc.Class({
     onKeyUp(){
         this._direction = 0;
     },
+
     // 向左走
     playerLeft(){this._direction = DIR_TYPE.left;},
     // 向右走
@@ -89,25 +90,17 @@ cc.Class({
     // 向下走
     playerBottom(){this._direction = DIR_TYPE.down;},
 
-    start () {
-
-    },
-
     // 发生了碰撞 - 会发生穿透，不用它了
     // onCollisionEnter: function (other, self) {
     //     const offset = 5;
     //     switch(this._direction){
     //         case DIR_TYPE.left:
-    //             this.node.x = self.node.x + offset;
     //             break;
     //         case DIR_TYPE.right:
-    //             this.node.x = self.node.x - offset;
     //             break;
     //         case DIR_TYPE.up:
-    //             this.node.y = self.node.y - offset;
     //             break;
     //         case DIR_TYPE.down:
-    //             this.node.y = self.node.y + offset;
     //             break;
     //         default:break;
     //     }
@@ -125,12 +118,14 @@ cc.Class({
         // posInPixel：目标节点的position
         const posInPixel = cc.v2(x,y);
 
+        // 坐标转换，player的坐标 → 地图上的坐标
         var mapSize = this.worldMap.node.getContentSize();
         var tileSize = this.worldMap.getTileSize();
 
         var xInTiled = (posInPixel.x / tileSize.width);
         var yInTiled = ((mapSize.height - posInPixel.y) / tileSize.height);
 
+        // 坐标转换完成后，返回player坐标上，地图块的gid，如果不在地图上则返回0
         return layer.getTileGIDAt( cc.v2(xInTiled,yInTiled) );
     },
     // 检测角色的四个角的碰撞，有一个角碰撞都不行
@@ -140,27 +135,30 @@ cc.Class({
             let width = this.node.width;
             let height = this.node.height;
             try{
+                // 1、检测角色四个角的gid
                 if( this.calcGid(x-width/2, y+height/2, layer) 
                     || this.calcGid(x-width/2, y-height/2, layer)
                     || this.calcGid(x+width/2, y-height/2, layer)
                     || this.calcGid(x+width/2, y+height/2, layer)
-                ){  // 碰撞
-                    console.log("发生了碰撞")
+                ){  // 1.1、发生了碰撞
+                    // console.log("发生了碰撞")
                     return { x:this.node.x, y:this.node.y }
                 }else {
                     return {x,y}
                 }
             }catch(e){
-                console.log("地图边界发生错误");
+                // 2、当角色走到地图边缘的时候，因为地图边缘超出了界限，此时会报错
+                // console.log("地图边界发生错误");
                 // console.log(e);
                 return { x:this.node.x, y:this.node.y }
             }
         }
 
+        // 3、地图上没有碰撞检测图层，则直接返回目的坐标
         return { x:x, y:y }
     },
     update (dt) {
-        // 1、判断当前的行动方向。计算出位移量，并生成新的xy坐标
+        // 1、判断当前的行动方向。计算出位移量，生成新的xy坐标
         let x = this.node.x;
         let y = this.node.y;
         if(this._direction === DIR_TYPE.left || this._direction===DIR_TYPE.right){
