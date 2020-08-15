@@ -41,8 +41,8 @@ cc.Class({
 
             node.width = collidItem.width;
             node.height = collidItem.height;
-            node.x = collidItem.x + collidItem.width/2;
-            node.y = collidItem.y - collidItem.height/2;
+            node.x = collidItem.x;
+            node.y = collidItem.y;
             // node.y = collidItem.y;
 
             // 在新节点上加入碰撞体
@@ -50,7 +50,7 @@ cc.Class({
 
             // 设置碰撞体的大小、偏移量
             node.getComponent(cc.BoxCollider).size = cc.size(collidItem.width,collidItem.height);
-            // node.getComponent(cc.BoxCollider).offset = cc.v2(-collidItem.width / 2, -collidItem.height / 2);
+            node.getComponent(cc.BoxCollider).offset = cc.v2(collidItem.width / 2, -collidItem.height / 2);
             // node.getComponent(cc.BoxCollider).tag = 5;
 
             // 加入到界面中
