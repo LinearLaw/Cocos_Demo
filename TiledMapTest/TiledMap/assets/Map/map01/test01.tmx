@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="background" tilewidth="32" tileheight="32">
+  <image source="background.png" width="96" height="128"/>
+ </tileset>
+ <tileset firstgid="13" name="blocks" tilewidth="32" tileheight="32">
+  <image source="blocks.png" width="96" height="128"/>
+ </tileset>
+ <layer name="ground" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt0LcNADAQw8B3jvvPaw6hxoCKA1gzRURGQRJ0RUMX9cDEEvXGwRW14pn/+Z//+d+P/x7EwwoV
+  </data>
+ </layer>
+ <layer name="blocks" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzlUlsOwCAM8gh7z/ufVD5N01kw3ccyEhK+gCqlfAcLuIJbkt8OHuBpvBnt4QJvsBpvRnvo83pvRkf3ZiDKU/Hm/2ZkMveqbxzty8scdVb2xXRW9jXqbHvP6qfes5q5VdF/QwPTtgu2
+  </data>
+ </layer>
+ <objectgroup name="block_obj" visible="0">
+  <object name="1" x="96" y="65" width="95" height="286"/>
+  <object name="2" x="191" y="96" width="384" height="94"/>
+  <object name="3" x="385" y="289" width="93" height="93"/>
+  <object name="4" x="130" y="353" width="188" height="93"/>
+  <object name="5" x="96" y="449" width="543" height="94"/>
+  <object name="6" x="544" y="353" width="94" height="94"/>
+ </objectgroup>
+</map>

@@ -1,0 +1,8 @@
+{
+  "engine": "cocos2d-html5",
+  "packages": "packages",
+  "version": "2.4.0",
+  "name": "TiledMap",
+  "id": "50e8ba05-3519-4367-950d-bb81e7525555",
+  "isNew": false
+}
