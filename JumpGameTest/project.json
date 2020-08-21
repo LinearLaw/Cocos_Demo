@@ -1,0 +1,8 @@
+{
+  "engine": "cocos2d-html5",
+  "packages": "packages",
+  "version": "2.4.0",
+  "name": "JumpTest",
+  "id": "b094eab4-38f8-4c9e-b6ff-4a4c6730bbcd",
+  "isNew": false
+}
