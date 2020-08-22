@@ -174,7 +174,7 @@
       "array": [
         0,
         0,
-        536.9357503463519,
+        529.0106680612517,
         0,
         0,
         0,
@@ -330,7 +330,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        480,
+        681.426,
         320,
         0,
         0,
@@ -496,7 +496,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -801.301,
+        -686.728,
         -328.453,
         0,
         0,
@@ -752,7 +752,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -383.049,
+        -436.25,
         37.35,
         0,
         0,
@@ -810,7 +810,27 @@
     "_id": "93eB3Fz3xANpCrBcJvoEX1"
   },
   {
-    "__type__": "cc.BoxCollider",
+    "__type__": "20ccaoEZGhADY9WRPyNcvdD",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 18
+    },
+    "_enabled": true,
+    "player": {
+      "__id__": 18
+    },
+    "playerXSpeed": 128,
+    "xDirection": 0,
+    "maxXSpeed": 200,
+    "yAccel": 100,
+    "yDirection": 0,
+    "playerYSpeed": 0,
+    "maxYSpeed": 20,
+    "_id": "4bG08XeJFJzI/2RkPtCBfV"
+  },
+  {
+    "__type__": "cc.PolygonCollider",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -823,31 +843,28 @@
       "x": 0,
       "y": 0
     },
-    "_size": {
-      "__type__": "cc.Size",
-      "width": 44,
-      "height": 68
-    },
-    "_id": "564OrvMXFOyobEQdfKDceN"
-  },
-  {
-    "__type__": "20ccaoEZGhADY9WRPyNcvdD",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 18
-    },
-    "_enabled": true,
-    "player": {
-      "__id__": 18
-    },
-    "playerXSpeed": 64,
-    "xDirection": 0,
-    "maxXSpeed": 200,
-    "yAccel": 100,
-    "yDirection": 0,
-    "playerYSpeed": 0,
-    "maxYSpeed": 20,
-    "_id": "4bG08XeJFJzI/2RkPtCBfV"
+    "points": [
+      {
+        "__type__": "cc.Vec2",
+        "x": -22,
+        "y": -34
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 22,
+        "y": -34
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 22,
+        "y": 34
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -22,
+        "y": 34
+      }
+    ],
+    "_id": "30I1UOP/hAvpnINNJ9/vGY"
   }
 ]

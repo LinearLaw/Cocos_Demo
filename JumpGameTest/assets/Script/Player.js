@@ -116,6 +116,20 @@ cc.Class({
             default:break;
         }
     },
+    onCollisionStay: function (other, self) {
+        /* 如果stay触发，说明角色在地面。 */
+    },
+    onCollisionExit:function(other,self){
+
+        /*  如果当前角色不处于下落和上升状态，则说明角色已经悬空，
+            需要将方向改为下落。
+         */
+        if(this.yDirection !== DIR_Y_TYPE.down && this.yDirection !== DIR_Y_TYPE.up){
+            this.playerYSpeed = 0;
+            this.yDirection = DIR_Y_TYPE.down;
+        }
+    },
+
     /* @desc 角色碰撞到了地板  */
     onGroundCollision(other, self) {
         
