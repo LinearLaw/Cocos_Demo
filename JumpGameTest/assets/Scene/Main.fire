@@ -823,10 +823,13 @@
     "playerXSpeed": 128,
     "xDirection": 0,
     "maxXSpeed": 200,
-    "yAccel": 100,
+    "collisionX": 0,
+    "yAccel": 75,
     "yDirection": 0,
     "playerYSpeed": 0,
-    "maxYSpeed": 20,
+    "maxYSpeed": 24,
+    "touchingNumber": 0,
+    "isJump": false,
     "_id": "4bG08XeJFJzI/2RkPtCBfV"
   },
   {

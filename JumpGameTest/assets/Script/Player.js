@@ -59,7 +59,8 @@ cc.Class({
         maxYSpeed:20,
 
         /*  当前节点碰撞点数，可能会有x方向、y方向的碰撞
-            如果touchingNumber为0，说明既没有跟x碰撞，也没有跟y碰撞
+            如果touchingNumber为0，说明既没有跟x碰撞，也没有跟y碰撞，
+            此时的节点就是处于悬空状态
          */
         touchingNumber:0,
 
@@ -81,6 +82,7 @@ cc.Class({
     onKeyDown:function(e){
         switch(e.keyCode){
             case cc.macro.KEY.up:
+                if(this.isJump){ return; }
                 this.isJump = true;
                 this.onPlayerUp();
                 break;
@@ -112,11 +114,24 @@ cc.Class({
     onPlayerLeft:function(){
         this.xDirection = DIR_X_TYPE.left;
         this.playerXSpeed = this.maxXSpeed;
+
+        // 调整角色的左朝向
+        this.turnLeft();
     },
     onPlayerRight:function(){
         this.xDirection = DIR_X_TYPE.right;
         this.playerXSpeed = this.maxXSpeed;
+
+        // 调整角色的右朝向
+        this.turnRight();
     },
+    turnLeft() {
+        this.node.scaleX = -Math.abs(this.node.scaleX);
+    },
+    turnRight() {
+        this.node.scaleX = Math.abs(this.node.scaleX);
+    },
+
     onPlayerUp:function(){
         this.yDirection = DIR_Y_TYPE.up;
         this.playerYSpeed = this.maxYSpeed;
@@ -151,24 +166,30 @@ cc.Class({
         const otherPreAabb = other.world.preAabb.clone();
 
 
-        /* 2、x轴方向上，碰撞时进行位移矫正 */
+        /* 2、x轴方向上，碰撞时进行位移矫正
+            先判断x方向的框。
+         */
         selfPreAabb.x = selfAabb.x;
         otherPreAabb.x = otherAabb.x;
         if(cc.Intersection.rectRect(selfPreAabb,otherPreAabb)){
+
             if(this.xDirection === DIR_X_TYPE.right && (selfPreAabb.xMax > otherPreAabb.xMin)){
-                this.node.x = this.node.x - Math.floor(Math.abs(selfPreAabb.xMax - otherPreAabb.xMin));
+                this.node.x = this.node.x -2- Math.floor(Math.abs(selfPreAabb.xMax - otherPreAabb.xMin));
                 this.collisionX = DIR_X_TYPE.right;
             }
             else if(this.xDirection === DIR_X_TYPE.left && (selfPreAabb.xMin<otherPreAabb.xMax)){
-                this.node.x = this.node.x + Math.floor(Math.abs(otherPreAabb.xMax - selfPreAabb.xMin));
+                this.node.x = this.node.x +2+ Math.floor(Math.abs(otherPreAabb.xMax - selfPreAabb.xMin));
                 this.collisionX = DIR_X_TYPE.left;
-            }else{
-                this.collisionX = DIR_X_TYPE.stand;
             }
-            // return;
+
+            // 记录，在other发生了X轴的碰撞
+            other.touchingX = true;
+            return;
         }
 
-        /* 1、y轴方向上，碰撞时进行y轴位移矫正 */
+        /* 1、y轴方向上，碰撞时进行y轴位移矫正
+            如果x方向的框没有交集，再判断y方向的框
+         */
         selfPreAabb.y = selfAabb.y;
         otherPreAabb.y = otherAabb.y;
         /* 
@@ -184,12 +205,14 @@ cc.Class({
             /* 1、下落状态，然后当前节点在碰撞节点的上面
                 这里的算法，需要用图来绘制。
              */
+
             if(this.yDirection === DIR_Y_TYPE.down && (selfPreAabb.yMin < otherPreAabb.yMax)){
                 this.node.y = otherPreAabb.yMax - this.node.parent.y + selfPreAabb.height/2;
             }else if(this.yDirection === DIR_Y_TYPE.up && (selfPreAabb.yMin < otherPreAabb.yMin)){
                 this.node.y = otherPreAabb.yMin - this.node.parent.y - selfPreAabb.height/2;
             }
-
+            // 记录，在other发生了X轴的碰撞
+            other.touchingY = true;
         }
         /* 结束下落状态 */
         this.yDirection = DIR_Y_TYPE.stand;
@@ -212,8 +235,13 @@ cc.Class({
             if( this.touchingNumber === 0 && this.isJump === false){
                 this.playerYSpeed = 0;
                 this.yDirection = DIR_Y_TYPE.down;
-            }else{
+            }
 
+            if(other.touchingX){
+                this.collisionX = DIR_X_TYPE.stand;
+                other.touchingX = false;
+            }else if(other.touchingY){
+                other.touchingY = false;
             }
             // this.collisionX = DIR_X_TYPE.stand;
        }
@@ -232,9 +260,11 @@ cc.Class({
         // 计算y的坐标值
         this.calcYSpeed(dt);
         
+        // 利用collisionX来判定当前是否发生了x轴碰撞，发生了就停下来
         if(this.xDirection * this.collisionX > 0){
             this.playerXSpeed = 0;
         }
+        console.log("update",this.xDirection,this.collisionX,"-->",this.playerXSpeed);
         this.node.x = this.node.x + this.xDirection*this.playerXSpeed*dt;
     },
 
