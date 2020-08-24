@@ -5,18 +5,6 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-// const DIR_X_TYPE = {
-//     stand:0,
-//     left:-1,
-//     right:1,
-// }
-
-// const DIR_Y_TYPE={
-//     stand:0,
-//     up:-1,
-//     down:1,
-// }
-
 import {
     DIR_X_TYPE,
     DIR_Y_TYPE,
@@ -40,12 +28,12 @@ cc.Class({
         // x轴的行走方向 
         xDirection:DIR_X_TYPE.stand,
         maxXSpeed:20,
-        /*  x方向是否发生了碰撞，
+        /*  记录x方向发生了什么样的碰撞，
             如果x，left方向发生了碰撞，设置为left
             如果x，right方向发生了碰撞，设置为right，
 
             xDirection * collisionX如果为正，说明发生了x方向的碰撞，
-            在update中就将playerXSpeed设置为0
+            此时，在update函数中，将playerXSpeed设置为0，不让角色继续向前
          */
         collisionX:0,
         
@@ -65,7 +53,8 @@ cc.Class({
         touchingNumber:0,
 
         /*  当前角色是否处于跳跃状态，
-            跳跃状态下，不需要设置自由落体
+            跳跃状态下，处于悬空状态，此时的动作会和touchingNumber的动作冲突，
+            所以需要isJump标志位，来标识跳跃状态，绕过touchingNumber检查
          */
         isJump:false,
     },
@@ -125,12 +114,9 @@ cc.Class({
         // 调整角色的右朝向
         this.turnRight();
     },
-    turnLeft() {
-        this.node.scaleX = -Math.abs(this.node.scaleX);
-    },
-    turnRight() {
-        this.node.scaleX = Math.abs(this.node.scaleX);
-    },
+    // 角色贴图朝向改动
+    turnLeft() { this.node.scaleX = -Math.abs(this.node.scaleX); },
+    turnRight() { this.node.scaleX = Math.abs(this.node.scaleX); },
 
     onPlayerUp:function(){
         this.yDirection = DIR_Y_TYPE.up;
@@ -173,16 +159,24 @@ cc.Class({
         otherPreAabb.x = otherAabb.x;
         if(cc.Intersection.rectRect(selfPreAabb,otherPreAabb)){
 
+            // 这里增加了1px的偏移，主要为了防止碰撞盒的重叠。
             if(this.xDirection === DIR_X_TYPE.right && (selfPreAabb.xMax > otherPreAabb.xMin)){
-                this.node.x = this.node.x -2- Math.floor(Math.abs(selfPreAabb.xMax - otherPreAabb.xMin));
+                this.node.x = this.node.x - 1 - Math.floor(Math.abs(selfPreAabb.xMax - otherPreAabb.xMin));
+                
+                /* 当前在right方向发生了碰撞 */
                 this.collisionX = DIR_X_TYPE.right;
             }
             else if(this.xDirection === DIR_X_TYPE.left && (selfPreAabb.xMin<otherPreAabb.xMax)){
-                this.node.x = this.node.x +2+ Math.floor(Math.abs(otherPreAabb.xMax - selfPreAabb.xMin));
+                this.node.x = this.node.x + 1 + Math.floor(Math.abs(otherPreAabb.xMax - selfPreAabb.xMin));
+
+                // 当前在left方向发生了碰撞
                 this.collisionX = DIR_X_TYPE.left;
             }
 
-            // 记录，在other发生了X轴的碰撞
+            /* 记录，在other发生了X轴的碰撞 - 
+                为什么会需要touchingX？
+                在onCollisionExit的时候，需要将collisionX的值初始化。
+             */
             other.touchingX = true;
             return;
         }
@@ -230,7 +224,9 @@ cc.Class({
             this.touchingNumber--;
 
             /*  当碰撞面数为0，也就是说既没有跟x碰撞，也没有跟y碰撞，
-                说明此时角色处于悬空状态，角色设置为自由落体
+                说明此时角色处于悬空状态，角色设置为自由落体。
+
+                但是，如果是角色在跳跃状态，不设置状态。
              */
             if( this.touchingNumber === 0 && this.isJump === false){
                 this.playerYSpeed = 0;
