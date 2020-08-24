@@ -12,7 +12,7 @@ export const DIR_X_TYPE = {
  * @desc y方向上的type
  */
 export const DIR_Y_TYPE={
-    stand:-0.5,
+    stand:0,
     up:1,
     down:-1,
 }

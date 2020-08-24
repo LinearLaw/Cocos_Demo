@@ -40,6 +40,14 @@ cc.Class({
         // x轴的行走方向 
         xDirection:DIR_X_TYPE.stand,
         maxXSpeed:20,
+        /*  x方向是否发生了碰撞，
+            如果x，left方向发生了碰撞，设置为left
+            如果x，right方向发生了碰撞，设置为right，
+
+            xDirection * collisionX如果为正，说明发生了x方向的碰撞，
+            在update中就将playerXSpeed设置为0
+         */
+        collisionX:0,
         
         // y轴加速度
         yAccel:100,
@@ -49,6 +57,16 @@ cc.Class({
         playerYSpeed:0,
         // y轴最大速度
         maxYSpeed:20,
+
+        /*  当前节点碰撞点数，可能会有x方向、y方向的碰撞
+            如果touchingNumber为0，说明既没有跟x碰撞，也没有跟y碰撞
+         */
+        touchingNumber:0,
+
+        /*  当前角色是否处于跳跃状态，
+            跳跃状态下，不需要设置自由落体
+         */
+        isJump:false,
     },
 
 
@@ -63,6 +81,7 @@ cc.Class({
     onKeyDown:function(e){
         switch(e.keyCode){
             case cc.macro.KEY.up:
+                this.isJump = true;
                 this.onPlayerUp();
                 break;
             case cc.macro.KEY.down:
@@ -92,9 +111,11 @@ cc.Class({
     },
     onPlayerLeft:function(){
         this.xDirection = DIR_X_TYPE.left;
+        this.playerXSpeed = this.maxXSpeed;
     },
     onPlayerRight:function(){
         this.xDirection = DIR_X_TYPE.right;
+        this.playerXSpeed = this.maxXSpeed;
     },
     onPlayerUp:function(){
         this.yDirection = DIR_Y_TYPE.up;
@@ -116,22 +137,9 @@ cc.Class({
             default:break;
         }
     },
-    onCollisionStay: function (other, self) {
-        /* 如果stay触发，说明角色在地面。 */
-    },
-    onCollisionExit:function(other,self){
-
-        /*  如果当前角色不处于下落和上升状态，则说明角色已经悬空，
-            需要将方向改为下落。
-         */
-        if(this.yDirection !== DIR_Y_TYPE.down && this.yDirection !== DIR_Y_TYPE.up){
-            this.playerYSpeed = 0;
-            this.yDirection = DIR_Y_TYPE.down;
-        }
-    },
-
     /* @desc 角色碰撞到了地板  */
     onGroundCollision(other, self) {
+        this.touchingNumber ++;
         
         /* 世界坐标下，当前节点的碰撞矩形框 */
         const selfAabb = self.world.aabb;
@@ -141,6 +149,24 @@ cc.Class({
         /* 世界坐标下，被碰撞节点的矩形框 */
         const otherAabb = other.world.aabb;
         const otherPreAabb = other.world.preAabb.clone();
+
+
+        /* 2、x轴方向上，碰撞时进行位移矫正 */
+        selfPreAabb.x = selfAabb.x;
+        otherPreAabb.x = otherAabb.x;
+        if(cc.Intersection.rectRect(selfPreAabb,otherPreAabb)){
+            if(this.xDirection === DIR_X_TYPE.right && (selfPreAabb.xMax > otherPreAabb.xMin)){
+                this.node.x = this.node.x - Math.floor(Math.abs(selfPreAabb.xMax - otherPreAabb.xMin));
+                this.collisionX = DIR_X_TYPE.right;
+            }
+            else if(this.xDirection === DIR_X_TYPE.left && (selfPreAabb.xMin<otherPreAabb.xMax)){
+                this.node.x = this.node.x + Math.floor(Math.abs(otherPreAabb.xMax - selfPreAabb.xMin));
+                this.collisionX = DIR_X_TYPE.left;
+            }else{
+                this.collisionX = DIR_X_TYPE.stand;
+            }
+            // return;
+        }
 
         /* 1、y轴方向上，碰撞时进行y轴位移矫正 */
         selfPreAabb.y = selfAabb.y;
@@ -154,23 +180,46 @@ cc.Class({
          *      坐标系是哪儿？坐标系取的是父节点的相对坐标系
          * yMin，一个矩形，y轴上的最小值
          */
-        selfPreAabb.y = selfAabb.y;
-        otherPreAabb.y = otherAabb.y;
         if(cc.Intersection.rectRect(selfPreAabb,otherPreAabb)){
-            /* 1、下落状态，然后当前节点在碰撞节点的上面 */
-            if(this.yDirection === DIR_Y_TYPE.down && (selfPreAabb.yMax > otherPreAabb.yMax)){
+            /* 1、下落状态，然后当前节点在碰撞节点的上面
+                这里的算法，需要用图来绘制。
+             */
+            if(this.yDirection === DIR_Y_TYPE.down && (selfPreAabb.yMin < otherPreAabb.yMax)){
                 this.node.y = otherPreAabb.yMax - this.node.parent.y + selfPreAabb.height/2;
-            
-            
             }else if(this.yDirection === DIR_Y_TYPE.up && (selfPreAabb.yMin < otherPreAabb.yMin)){
-                this.node.y = otherPreAabb.yMin - this.node.parent.y - selfPreAabb.height;
+                this.node.y = otherPreAabb.yMin - this.node.parent.y - selfPreAabb.height/2;
             }
-        }
 
+        }
         /* 结束下落状态 */
         this.yDirection = DIR_Y_TYPE.stand;
         this.playerYSpeed = 0;
+        this.isJump = false;
     },
+
+    onCollisionStay: function (other, self) {
+        /* 如果stay触发，说明角色在地面。 */
+        
+    },
+    onCollisionExit:function(other,self){
+
+       if(other.tag === COLLID_TYPE.ground){
+            this.touchingNumber--;
+
+            /*  当碰撞面数为0，也就是说既没有跟x碰撞，也没有跟y碰撞，
+                说明此时角色处于悬空状态，角色设置为自由落体
+             */
+            if( this.touchingNumber === 0 && this.isJump === false){
+                this.playerYSpeed = 0;
+                this.yDirection = DIR_Y_TYPE.down;
+            }else{
+
+            }
+            // this.collisionX = DIR_X_TYPE.stand;
+       }
+    },
+
+    
     /* ——————————————————————————— ↑ 碰撞 ↑ ————————————————————————————— */
     
     start () {
@@ -183,6 +232,9 @@ cc.Class({
         // 计算y的坐标值
         this.calcYSpeed(dt);
         
+        if(this.xDirection * this.collisionX > 0){
+            this.playerXSpeed = 0;
+        }
         this.node.x = this.node.x + this.xDirection*this.playerXSpeed*dt;
     },
 
